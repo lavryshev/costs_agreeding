@@ -5,3 +5,6 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+ExpenseStatus.delete_all
+ExpenseStatus.create([{name: "Не согласована"}, {name: "Cогласована"}, {name: "Отклонена"}])
