@@ -1,0 +1,8 @@
+<div>
+  <%= bank_account.name %>
+  <div>
+    <%= link_to "Изменить", edit_bank_account_path(bank_account) %>
+    <%= button_to "Удалить", bank_account_path(bank_account), method: :delete %>
+  </div>
+</div>
+<hr>

@@ -1,0 +1,8 @@
+<%= form_with model: bank_account do |form| %>
+  <% if bank_account.errors.any? %>
+    <%= bank_account.errors.full_messages.to_sentence.capitalize %>
+  <% end %>
+
+  <%= form.text_field :name %>
+  <%= form.submit %>
+<% end %>
