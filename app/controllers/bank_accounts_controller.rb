@@ -1,5 +1,5 @@
 class BankAccountsController < ApplicationController
-  before_action :set_bank_account, only: [:edit, :update, :destroy]
+  before_action :set_bank_account, only: %i[edit update destroy]
 
   def index
     @bank_accounts = BankAccount.all
@@ -13,18 +13,17 @@ class BankAccountsController < ApplicationController
     @bank_account = BankAccount.create(bank_account_params)
 
     if @bank_account.save
-      redirect_to bank_accounts_path, notice: "Банковский счет создан успешно."
+      redirect_to bank_accounts_path, notice: 'Банковский счет создан успешно.'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @bank_account.update(bank_account_params)
-      redirect_to bank_accounts_path, notice: "Банковский счет изменен успешно."
+      redirect_to bank_accounts_path, notice: 'Банковский счет изменен успешно.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -32,7 +31,7 @@ class BankAccountsController < ApplicationController
 
   def destroy
     @bank_account.destroy
-    redirect_to bank_accounts_path, notice: "Банковский счет удален."
+    redirect_to bank_accounts_path, notice: 'Банковский счет удален.'
   end
 
   private
@@ -44,5 +43,4 @@ class BankAccountsController < ApplicationController
   def set_bank_account
     @bank_account = BankAccount.find(params[:id])
   end
-
 end
