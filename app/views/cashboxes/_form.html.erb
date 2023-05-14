@@ -1,0 +1,11 @@
+<%= form_with model: cashbox do |form| %>
+  <% if cashbox.errors.any? %>
+    <%= cashbox.errors.full_messages.to_sentence.capitalize %>
+  <% end %>
+
+  <%= form.label :name, "Наименование:" %>
+  <%= form.text_field :name %>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
