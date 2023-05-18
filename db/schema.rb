@@ -27,9 +27,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
   end
 
   create_table "expenses", force: :cascade do |t|
-    t.bigint "expense_status_id", null: false
-    t.string "source_type", null: false
-    t.bigint "source_id", null: false
+    t.bigint "status_id"
+    t.string "source_type"
+    t.bigint "source_id"
     t.decimal "sum", precision: 15, scale: 2, null: false
     t.datetime "payment_date"
     t.bigint "author_id", null: false
@@ -39,9 +39,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_expenses_on_author_id"
-    t.index ["expense_status_id"], name: "index_expenses_on_expense_status_id"
     t.index ["responsible_id"], name: "index_expenses_on_responsible_id"
     t.index ["source_type", "source_id"], name: "index_expenses_on_source"
+    t.index ["status_id"], name: "index_expenses_on_status_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,7 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "expenses", "expense_statuses"
+  add_foreign_key "expenses", "expense_statuses", column: "status_id"
   add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "expenses", "users", column: "responsible_id"
 end

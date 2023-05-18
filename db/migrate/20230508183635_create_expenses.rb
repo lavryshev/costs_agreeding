@@ -22,8 +22,8 @@ class CreateExpenses < ActiveRecord::Migration[7.0]
     end
 
     create_table :expenses do |t|
-      t.references :expense_status, foreign_key: true, null: false
-      t.references :source, polymorphic: true, null: false
+      t.references :status, foreign_key: { to_table: 'expense_statuses' }
+      t.references :source, polymorphic: true
       t.decimal :sum, precision: 15, scale: 2, null: false
       t.datetime :payment_date
       t.references :author, foreign_key: { to_table: 'users' }, null: false
