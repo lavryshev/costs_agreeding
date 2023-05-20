@@ -14,6 +14,3 @@ BankAccount.create(id: 1, name: "Основной в Банк1")
 
 Cashbox.delete_all
 Cashbox.create([{id: 1, name: "Касса грн"}, {id: 2, name: "Касса usd"}])
-
-User.delete_all
-User.create(id: 1, login: "admin")

@@ -1,0 +1,24 @@
+<h1>Регистрация</h1>
+
+<%= form_with model: @user do |f| %>
+  <%= render 'layouts/form_errors', object: @user %>
+  <div>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %><br />
+  </div>
+  <div>
+    <%= f.label :login %><br />
+    <%= f.text_field :login %><br />
+  </div>
+  <div>
+    <%= f.label :password %><br />
+    <%= f.password_field :password %><br />
+  </div>
+  <div>
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %><br />
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -8,7 +8,7 @@ class ExpensesController < ApplicationController
   def create
     @expense = Expense.create(expense_params)
     @expense.status = ExpenseStatus::not_agreed
-    @expense.author = User.first
+    @expense.author = current_user
 
     if @expense.save
       redirect_to root_path, notice: 'Заявка создана успешно.'
