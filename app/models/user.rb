@@ -26,4 +26,9 @@ class User < ApplicationRecord
     }
 
   validates :password, confirmation: { if: :require_password? }
+
+  def deliver_password_reset_instructions!
+    reset_perishable_token!
+    PasswordResetMailer.reset_email(self).deliver_now
+  end
 end

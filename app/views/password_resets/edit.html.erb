@@ -1,0 +1,16 @@
+<h1>Создайте новый пароль</h1>
+
+<%= form_with model: @user, url: password_reset_path(@user.perishable_token) do |f| %>
+  <%= render 'layouts/form_errors', object: @user %>
+  <div>
+    <%= f.label :password, "Пароль:" %><br />
+    <%= f.password_field :password %><br />
+  </div>
+  <div>
+    <%= f.label :password_confirmation, "Подтверждение пароля" %><br />
+    <%= f.password_field :password_confirmation %><br />
+  </div>
+  <div>
+    <%= f.submit "Сохранить" %>
+  </div>
+<% end %>
