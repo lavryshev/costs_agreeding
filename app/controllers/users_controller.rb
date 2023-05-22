@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:registration, :register]
-  
+  before_action :require_registration, only: [:registration, :register]
+
   def index
     @users = User.all
   end
@@ -41,5 +42,9 @@ class UsersController < ApplicationController
 
   def users_params
     params.require(:user).permit(:login, :email, :password, :password_confirmation)
+  end
+
+  def require_registration
+    redirect_to root_path if User.first
   end
 end
