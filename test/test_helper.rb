@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require "authlogic/test_case"
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -10,4 +11,17 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  
+  def log_in_as(user)
+    visit root_path
+    fill_in "Login", with: user.login
+    fill_in "Password", with: user.login
+    click_on "Login"
+    page.driver.browser.manage.add_cookie(:name => "user_credentials", :value => "#{user.persistence_token}::#{user.send(user.class.primary_key)}")
+  end
+
+  def as_user(user)
+    log_in_as(user)
+    yield
+  end
 end
