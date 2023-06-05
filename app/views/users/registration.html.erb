@@ -3,6 +3,10 @@
 <%= form_with model: @user, url: register_path do |f| %>
   <%= render 'layouts/form_errors', object: @user %>
   <div>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %><br />
+  </div>
+  <div>
     <%= f.label :email %><br />
     <%= f.text_field :email %><br />
   </div>

@@ -28,11 +28,14 @@
 
   <% if expense.persisted? %>
     <div>
+      Автор: <%= expense.author.name %>
+    </div>
+    <div>
       Статус: <%= expense.status.name %>
     </div>
     <% if expense.responsible %>
       <div>
-        Ответственный: <%= expense.responsible.login %>
+        Ответственный: <%= expense.responsible.name %>
       </div>
     <% end %>
   <% end %>

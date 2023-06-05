@@ -6,6 +6,9 @@
     <%= expense.created_at %>
   </div>
   <div>
+    <%= expense.author.name %>
+  </div>
+  <div>
     <%= expense.source.name %>
   </div>
   <div>
@@ -21,7 +24,7 @@
     <%= expense.status.name %>
   </div>
   <div>
-    <%= expense.responsible.name %>
+    <%= expense.responsible.name if expense.responsible %>
   </div>
   <div>
     <%= link_to "Изменить", edit_expense_path(expense) %>

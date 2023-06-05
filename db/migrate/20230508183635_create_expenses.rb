@@ -13,6 +13,7 @@ class CreateExpenses < ActiveRecord::Migration[7.0]
     end
 
     create_table :users do |t|
+      t.string    :name
       t.string    :email
       t.index     :email, unique: true
       t.string    :login
