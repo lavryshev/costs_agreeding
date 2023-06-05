@@ -1,7 +1,5 @@
 <%= form_with model: expense do |form| %>
-  <% if expense.errors.any? %>
-    <%= expense.errors.full_messages.to_sentence.capitalize %>
-  <% end %>
+  <%= render 'layouts/form_errors', object: expense %>
 
  <div>
     <%= form.label :source, "Банковский счет/касса:" %>
@@ -28,7 +26,25 @@
     <%= form.text_area :notes %>
   </div>
 
+  <% if expense.persisted? %>
+    <div>
+      Статус: <%= expense.status.name %>
+    </div>
+    <% if expense.responsible %>
+      <div>
+        Ответственный: <%= expense.responsible.login %>
+      </div>
+    <% end %>
+  <% end %>
+
   <div>
     <%= form.submit %>
+  </div>
+<% end %>
+
+<% if expense.persisted? %>
+  <div>
+    <%= button_to "Утвердить", expense_agree_path(expense), method: :put %>
+    <%= button_to "Отклонить", expense_disagree_path(expense), method: :put %>
   </div>
 <% end %>

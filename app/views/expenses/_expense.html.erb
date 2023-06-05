@@ -18,6 +18,12 @@
     <%= expense.payment_date %>
   </div>
   <div>
+    <%= expense.status.name %>
+  </div>
+  <div>
+    <%= expense.responsible.name %>
+  </div>
+  <div>
     <%= link_to "Изменить", edit_expense_path(expense) %>
     <%= button_to "Удалить", expense_path(expense), method: :delete %>
   </div>

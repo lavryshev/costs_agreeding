@@ -1,5 +1,5 @@
 class ExpensesController < ApplicationController
-  before_action :set_expense, only: %i[edit update destroy]
+  before_action :set_expense, only: %i[edit update destroy agree disagree]
 
   def new
     @expense = Expense.new
@@ -30,6 +30,20 @@ class ExpensesController < ApplicationController
   def destroy
     @expense.destroy
     redirect_to expenses_path, notice: 'Заявка удалена.'
+  end
+
+  def agree
+    @expense.status = ExpenseStatus::agreed
+    @expense.responsible = current_user
+    @expense.save
+    render :edit, status: :unprocessable_entity
+  end
+
+  def disagree
+    @expense.status = ExpenseStatus::not_agreed
+    @expense.responsible = current_user
+    @expense.save
+    render :edit, status: :unprocessable_entity
   end
 
   private
