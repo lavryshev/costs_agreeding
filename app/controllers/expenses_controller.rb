@@ -40,7 +40,7 @@ class ExpensesController < ApplicationController
   end
 
   def disagree
-    @expense.status = ExpenseStatus::not_agreed
+    @expense.status = ExpenseStatus::rejected
     @expense.responsible = current_user
     @expense.save
     render :edit, status: :unprocessable_entity
