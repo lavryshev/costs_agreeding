@@ -24,4 +24,8 @@ class ActiveSupport::TestCase
     log_in_as(user)
     yield
   end
+
+  def login(user)
+    post user_session_url, :params => { :user_session => { :login => user.login, :password => user.login, :remember_me => false } }
+  end
 end
