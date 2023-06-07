@@ -1,0 +1,16 @@
+<div>
+  <div>
+    <%= user.name %>
+  </div>
+  <div>
+    <%= user.email %>
+  </div>
+  <div>
+    <%= user.login %>
+  </div>
+  <div>
+    <%= link_to "Изменить", edit_user_path(user) %>
+    <%= button_to "Удалить", user_path(user), method: :delete %>
+  </div>
+</div>
+<hr>

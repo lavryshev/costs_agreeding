@@ -9,7 +9,7 @@
     <%= expense.author.name %>
   </div>
   <div>
-    <%= expense.source.name %>
+    <%= expense.source.name if expense.source %>
   </div>
   <div>
     <%= expense.sum %>
