@@ -5,5 +5,7 @@ class Cashbox < ApplicationRecord
     end
   end
   
+  has_many :expenses, as: :source, dependent: :restrict_with_error
+
   validates :name, presence: true
 end

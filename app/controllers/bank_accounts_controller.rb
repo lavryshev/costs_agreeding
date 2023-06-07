@@ -31,7 +31,11 @@ class BankAccountsController < ApplicationController
 
   def destroy
     @bank_account.destroy
-    redirect_to bank_accounts_path, notice: 'Банковский счет удален.'
+    if @bank_account.destroyed?
+      redirect_to bank_accounts_path, notice: 'Банковский счет удален.'
+    else
+      redirect_to bank_accounts_path, notice: @bank_account.errors.full_messages.to_sentence.capitalize
+    end
   end
 
   private

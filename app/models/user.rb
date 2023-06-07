@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :expense_author, class_name: 'Expense', foreign_key: 'author_id', dependent: :restrict_with_error
+  has_many :expense_responsible, class_name: 'Expense', foreign_key: 'responsible_id', dependent: :restrict_with_error
+  
   acts_as_authentic do |c|
     c.crypto_provider = ::Authlogic::CryptoProviders::SCrypt
   end

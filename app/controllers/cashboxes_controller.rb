@@ -31,7 +31,11 @@ class CashboxesController < ApplicationController
 
   def destroy
     @cashbox.destroy
-    redirect_to cashboxes_path, notice: 'Касса удалена.'
+    if @cashbox.destroyed?
+      redirect_to cashboxes_path, notice: 'Касса удалена.'
+    else
+      redirect_to cashboxes_path, notice: @cashbox.errors.full_messages.to_sentence.capitalize
+    end
   end
 
   private

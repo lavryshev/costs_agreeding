@@ -45,7 +45,11 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_path, notice: 'Пользователь удален.'
+    if @user.destroyed?
+      redirect_to users_path, notice: 'Пользователь удален.'
+    else
+      redirect_to users_path, notice: @user.errors.full_messages.to_sentence.capitalize
+    end
   end
 
   private
