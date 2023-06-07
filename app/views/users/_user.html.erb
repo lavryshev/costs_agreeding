@@ -8,6 +8,11 @@
   <div>
     <%= user.login %>
   </div>
+  <% if user.is_admin %>
+    <div>
+      Администратор
+    </div>
+  <% end %>
   <div>
     <%= link_to "Изменить", edit_user_path(user) %>
     <%= button_to "Удалить", user_path(user), method: :delete %>

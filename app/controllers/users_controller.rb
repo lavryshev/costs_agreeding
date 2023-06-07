@@ -26,6 +26,7 @@ class UsersController < ApplicationController
 
   def register
     @user = User.new(users_params)
+    @user.is_admin = true
     if @user.save
       redirect_to root_path, notice: "Регистрация выполнена."
     else
@@ -55,7 +56,7 @@ class UsersController < ApplicationController
   private
 
   def users_params
-    params.require(:user).permit(:name, :login, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :login, :email, :password, :password_confirmation, :is_admin)
   end
 
   def require_registration
