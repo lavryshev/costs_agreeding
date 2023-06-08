@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: [:registration, :register]
-  before_action :require_registration, only: [:registration, :register]
-  before_action :set_user, only: [:edit, :update, :destroy]
+  skip_before_action :require_login, only: %i[registration register]
+  before_action :require_registration, only: %i[registration register]
+  before_action :set_user, only: %i[edit update destroy]
 
   def index
     @users = User.all
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(users_params)
     if @user.save
-      redirect_to users_path, notice: "Пользователь создан."
+      redirect_to users_path, notice: 'Пользователь создан.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     @user = User.new(users_params)
     @user.is_admin = true
     if @user.save
-      redirect_to root_path, notice: "Регистрация выполнена."
+      redirect_to root_path, notice: 'Регистрация выполнена.'
     else
       render :registration, status: :unprocessable_entity
     end

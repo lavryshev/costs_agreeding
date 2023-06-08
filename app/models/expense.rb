@@ -8,7 +8,7 @@ class Expense < ApplicationRecord
   validates :payment_date, on: :create, allow_blank: true, comparison: { greater_than_or_equal_to: Date.today }
 
   def source_sgid
-    self.source&.to_signed_global_id
+    source&.to_signed_global_id
   end
 
   def source_sgid=(sgid)

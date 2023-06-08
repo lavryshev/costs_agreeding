@@ -7,7 +7,7 @@ class ExpensesController < ApplicationController
 
   def create
     @expense = Expense.create(expense_params)
-    @expense.status = ExpenseStatus::not_agreed
+    @expense.status = ExpenseStatus.not_agreed
     @expense.author = current_user
 
     if @expense.save
@@ -33,14 +33,14 @@ class ExpensesController < ApplicationController
   end
 
   def agree
-    @expense.status = ExpenseStatus::agreed
+    @expense.status = ExpenseStatus.agreed
     @expense.responsible = current_user
     @expense.save
     render :edit, status: :unprocessable_entity
   end
 
   def disagree
-    @expense.status = ExpenseStatus::rejected
+    @expense.status = ExpenseStatus.rejected
     @expense.responsible = current_user
     @expense.save
     render :edit, status: :unprocessable_entity
