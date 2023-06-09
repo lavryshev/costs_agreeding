@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user_session, :current_user
-
-  before_action :require_login
+  helper_method :current_user_session, :current_user, :require_login, :require_admin
 
   private
 
@@ -23,5 +21,9 @@ class ApplicationController < ActionController::Base
     elsif !current_user
       redirect_to new_user_session_path
     end
+  end
+
+  def require_admin
+    redirect_to permission_error_path unless current_user && current_user.is_admin
   end
 end

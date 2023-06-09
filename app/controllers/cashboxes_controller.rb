@@ -1,4 +1,5 @@
 class CashboxesController < ApplicationController
+  before_action :require_admin
   before_action :set_cashbox, only: %i[edit update destroy]
 
   def index

@@ -1,4 +1,5 @@
 class ExpensesController < ApplicationController
+  before_action :require_login
   before_action :set_expense, only: %i[edit update destroy agree disagree]
 
   def new

@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   put '/expenses/:id/agree', to: 'expenses#agree', as: 'expense_agree'
   put '/expenses/:id/disagree', to: 'expenses#disagree', as: 'expense_disagree'
 
+  get '/permission_error', to: 'pages#permission_error', as: 'permission_error'
   root "pages#home"
 end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: %i[registration register]
+  before_action :require_admin, only: %i[index new create edit update destroy]
   before_action :require_registration, only: %i[registration register]
   before_action :set_user, only: %i[edit update destroy]
 
