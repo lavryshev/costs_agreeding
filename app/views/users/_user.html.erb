@@ -13,6 +13,11 @@
       Администратор
     </div>
   <% end %>
+  <% if user.can_agree %>
+    <div>
+      Может согласовывать заявки
+    </div>
+  <% end %>
   <div>
     <%= link_to "Изменить", edit_user_path(user) %>
     <%= button_to "Удалить", user_path(user), method: :delete %>

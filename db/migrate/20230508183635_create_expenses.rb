@@ -25,6 +25,7 @@ class CreateExpenses < ActiveRecord::Migration[7.0]
       t.string    :perishable_token
       t.index     :perishable_token, unique: true
       t.boolean   :is_admin, default: false
+      t.boolean   :can_agree, default: false
       t.timestamps
     end
 

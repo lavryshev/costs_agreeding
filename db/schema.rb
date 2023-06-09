@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
     t.string "persistence_token"
     t.string "perishable_token"
     t.boolean "is_admin", default: false
+    t.boolean "can_agree", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

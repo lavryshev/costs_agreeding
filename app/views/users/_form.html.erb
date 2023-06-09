@@ -25,6 +25,10 @@
     <%= f.label :is_admin, "Администратор" %>
   </div>
   <div>
+    <%= f.check_box :can_agree %>
+    <%= f.label :can_agree, "Право согласования заявок" %>
+  </div>
+  <div>
     <%= f.submit %>
   </div>
 <% end %>

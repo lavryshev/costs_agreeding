@@ -45,7 +45,7 @@
   </div>
 <% end %>
 
-<% if expense.persisted? %>
+<% if expense.persisted? && current_user.can_agree %>
   <div>
     <%= button_to "Утвердить", expense_agree_path(expense), method: :put %>
     <%= button_to "Отклонить", expense_disagree_path(expense), method: :put %>
