@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :require_admin, only: %i[index new create edit update destroy]
   before_action :require_registration, only: %i[registration register]
+  before_action :require_login, except: %i[registration register]
+  before_action :require_admin, except: %i[registration register]
   before_action :set_user, only: %i[edit update destroy]
 
   def index

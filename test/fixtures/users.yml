@@ -1,7 +1,32 @@
-user1:
-  email: user1@mail.com
-  login: user1
+admin:
+  name: Administrator
+  email: admin@test.com
+  login: <%= login = 'admin' %>
   password_salt: <%= salt = Authlogic::Random.hex_token %>
-  crypted_password: <%= Authlogic::CryptoProviders::SCrypt.encrypt("user1" + salt) %>
+  crypted_password: <%= Authlogic::CryptoProviders::SCrypt.encrypt(login + salt) %>
   persistence_token: <%= Authlogic::Random.hex_token %>
   perishable_token: <%= Authlogic::Random.friendly_token %>
+  is_admin: true
+  can_agree: true
+
+user1:
+  name: User 1
+  email: user1@test.com
+  login: <%= login = 'user1' %>
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::SCrypt.encrypt(login + salt) %>
+  persistence_token: <%= Authlogic::Random.hex_token %>
+  perishable_token: <%= Authlogic::Random.friendly_token %>
+  is_admin: false
+  can_agree: true
+
+user2:
+  name: User 2
+  email: user2@test.com
+  login: <%= login = 'user2' %>
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::SCrypt.encrypt(login + salt) %>
+  persistence_token: <%= Authlogic::Random.hex_token %>
+  perishable_token: <%= Authlogic::Random.friendly_token %>
+  is_admin: false
+  can_agree: false
