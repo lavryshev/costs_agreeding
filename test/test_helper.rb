@@ -28,4 +28,12 @@ class ActiveSupport::TestCase
   def login(user)
     post user_session_url, :params => { :user_session => { :login => user.login, :password => user.login, :remember_me => false } }
   end
+
+  def assert_logged_in
+    assert session[:user_credentials].present?
+  end
+  
+  def assert_not_logged_in
+    assert session[:user_credentials].blank?
+  end  
 end

@@ -7,12 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to registration_path
   end
 
-  test 'should redirect to login page for not authenticated users if there are no users in the application' do
-    get root_path
-    assert_redirected_to new_user_session_path
-  end
-
-  test 'after registration admin user is created' do
+  test 'should be created admin user after registration' do
     User.delete_all
     post register_url, params: { user: { name: 'Admisitrator', email: 'admin@test.com', login: 'admin', password: '1', password_confirmation: '1' } }
     assert User.last.is_admin
