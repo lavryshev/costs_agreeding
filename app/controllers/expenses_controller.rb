@@ -31,7 +31,7 @@ class ExpensesController < ApplicationController
 
   def destroy
     @expense.destroy
-    redirect_to expenses_path, notice: 'Заявка удалена.'
+    redirect_to root_path, notice: 'Заявка удалена.'
   end
 
   def agree
