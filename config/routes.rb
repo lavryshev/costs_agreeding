@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   resource :user_session  
   
-  resources :expenses, except: [:index, :show]
+  resources :expenses, except: :show do
+    get '/page/:page', action: :index, on: :collection
+  end
   put '/expenses/:id/agree', to: 'expenses#agree', as: 'expense_agree'
   put '/expenses/:id/disagree', to: 'expenses#disagree', as: 'expense_disagree'
 

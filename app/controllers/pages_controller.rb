@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   before_action :require_login
 
   def home
-    @expenses = Expense.all
+    redirect_to expenses_path
   end
 
   def permission_error

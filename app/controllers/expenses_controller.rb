@@ -1,7 +1,11 @@
 class ExpensesController < ApplicationController
-  before_action :require_login, only: %i[new create edit update destroy]
+  before_action :require_login
   before_action :require_agree_permission, only: %i[agree disagree]
   before_action :set_expense, only: %i[edit update destroy agree disagree]
+
+  def index
+    @expenses = Expense.order(:created_at).page params[:page]
+  end
 
   def new
     @expense = Expense.new
@@ -13,7 +17,7 @@ class ExpensesController < ApplicationController
     @expense.author = current_user
 
     if @expense.save
-      redirect_to root_path, notice: 'Заявка создана успешно.'
+      redirect_to expenses_path, notice: 'Заявка создана успешно.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -23,7 +27,7 @@ class ExpensesController < ApplicationController
 
   def update
     if @expense.update(expense_params)
-      redirect_to root_path, notice: 'Заявка изменена успешно.'
+      redirect_to expenses_path, notice: 'Заявка изменена успешно.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -31,7 +35,7 @@ class ExpensesController < ApplicationController
 
   def destroy
     @expense.destroy
-    redirect_to root_path, notice: 'Заявка удалена.'
+    redirect_to expenses_path, notice: 'Заявка удалена.'
   end
 
   def agree
