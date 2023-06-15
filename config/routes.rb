@@ -16,4 +16,12 @@ Rails.application.routes.draw do
 
   get '/permission_error', to: 'pages#permission_error', as: 'permission_error'
   root "pages#home"
+
+  namespace :api do
+    namespace :v1 do
+      defaults format: :json do
+        post '/expenses', to: 'expenses#create'
+      end
+    end
+  end
 end

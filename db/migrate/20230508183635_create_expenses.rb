@@ -40,5 +40,12 @@ class CreateExpenses < ActiveRecord::Migration[7.0]
       t.text :notes
       t.timestamps
     end
+
+    create_table :api_users do |t|
+      t.string :name, null: false
+      t.text :token, unique: true
+      t.boolean :active, default: true
+      t.timestamps
+    end
   end
 end

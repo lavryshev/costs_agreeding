@@ -1,0 +1,12 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+active:
+  name: App
+  token: <%= Digest::MD5::hexdigest(SecureRandom.hex) %>
+  active: true
+
+not_active:
+  name: App 2
+  token: <%= Digest::MD5::hexdigest(SecureRandom.hex) %>
+  active: false
+
