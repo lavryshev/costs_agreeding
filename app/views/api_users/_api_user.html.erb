@@ -1,0 +1,20 @@
+<div>
+  <div>
+    <%= api_user.name %>
+  </div>
+  <div>
+    <%= api_user.webhook_url %>
+  </div>
+  <div>
+    <% if api_user.active %>
+      <%= "Активный" %>
+    <% else %>
+      <%= "Неактивный" %>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to "Изменить", edit_api_user_path(api_user) %>
+    <%= button_to "Удалить", api_user_path(api_user), method: :delete %>
+  </div>
+</div>
+<hr>

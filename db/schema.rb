@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
     t.string "name", null: false
     t.text "token"
     t.boolean "active", default: true
+    t.string "webhook_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
