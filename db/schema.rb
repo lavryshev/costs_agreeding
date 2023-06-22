@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_17_203011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
     t.index ["status_id"], name: "index_expenses_on_status_id"
   end
 
+  create_table "incoming_requests", force: :cascade do |t|
+    t.bigint "api_user_id", null: false
+    t.string "action"
+    t.jsonb "data", default: "{}", null: false
+    t.index ["api_user_id"], name: "index_incoming_requests_on_api_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -74,4 +81,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_183635) do
   add_foreign_key "expenses", "expense_statuses", column: "status_id"
   add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "expenses", "users", column: "responsible_id"
+  add_foreign_key "incoming_requests", "api_users"
 end

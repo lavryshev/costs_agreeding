@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       defaults format: :json do
-        post '/expenses', to: 'expenses#create'
+        post '/addexpense', to: 'incoming_requests#create_expense'
       end
     end
   end
