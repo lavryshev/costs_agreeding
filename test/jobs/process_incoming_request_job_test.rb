@@ -8,7 +8,9 @@ class ProcessIncomingRequestJobTest < ActiveJob::TestCase
     r = IncomingRequest.create(api_user: api_users(:active), action: 'create_expense', data: data)
 
     assert_difference("IncomingRequest.count", -1) do
-      ProcessIncomingRequestJob.perform_now
+      assert_difference("ExpenseApiUser.count") do
+        ProcessIncomingRequestJob.perform_now
+      end
     end
   end
 end

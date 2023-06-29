@@ -39,9 +39,11 @@ class ExpensesController < ApplicationController
   end
 
   def agree
+    
     @expense.status = ExpenseStatus.agreed
     @expense.responsible = current_user
     @expense.save
+    
     render :edit, status: :unprocessable_entity
   end
 
