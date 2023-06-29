@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_17_203011) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_28_143526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_17_203011) do
     t.index ["api_user_id"], name: "index_incoming_requests_on_api_user_id"
   end
 
+  create_table "outgoing_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "status_changed_reports", force: :cascade do |t|
+    t.bigint "expense_id", null: false
+    t.bigint "responsible_id", null: false
+    t.bigint "status_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expense_id"], name: "index_status_changed_reports_on_expense_id"
+    t.index ["responsible_id"], name: "index_status_changed_reports_on_responsible_id"
+    t.index ["status_id"], name: "index_status_changed_reports_on_status_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -82,4 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_17_203011) do
   add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "expenses", "users", column: "responsible_id"
   add_foreign_key "incoming_requests", "api_users"
+  add_foreign_key "status_changed_reports", "expense_statuses", column: "status_id"
+  add_foreign_key "status_changed_reports", "expenses"
+  add_foreign_key "status_changed_reports", "users", column: "responsible_id"
 end

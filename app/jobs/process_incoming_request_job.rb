@@ -15,7 +15,7 @@ class ProcessIncomingRequestJob < ApplicationJob
       expense.status = ExpenseStatus.not_agreed
       
       if expense.save
-        res = Net::HTTP.post(uri, {command_id: r.id, result: 'success'}.to_json, "Content-Type" => "application/json")
+        res = Net::HTTP.post(uri, {command_id: r.id, result: 'success', expense_id: expense.id}.to_json, "Content-Type" => "application/json")
       else
         message = expense.errors.full_messages.to_sentence.capitalize
         res = Net::HTTP.post(uri, {command_id: r.id, result: 'error', message: message}.to_json, "Content-Type" => "application/json")
