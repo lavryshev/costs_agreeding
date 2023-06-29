@@ -39,11 +39,12 @@ class ExpensesController < ApplicationController
   end
 
   def agree
-    
     @expense.status = ExpenseStatus.agreed
     @expense.responsible = current_user
     @expense.save
     
+    add_status_change_report
+
     render :edit, status: :unprocessable_entity
   end
 
@@ -51,6 +52,9 @@ class ExpensesController < ApplicationController
     @expense.status = ExpenseStatus.rejected
     @expense.responsible = current_user
     @expense.save
+
+    add_status_change_report
+    
     render :edit, status: :unprocessable_entity
   end
 
@@ -62,5 +66,9 @@ class ExpensesController < ApplicationController
 
   def set_expense
     @expense = Expense.find(params[:id])
+  end
+
+  def add_status_change_report
+    StatusChangedReport.create(expense: @expense, responsible: @expense.responsible, status: @expense.status)
   end
 end

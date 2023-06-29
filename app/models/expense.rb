@@ -3,6 +3,8 @@ class Expense < ApplicationRecord
   belongs_to :source, polymorphic: true
   belongs_to :author, class_name: 'User'
   belongs_to :responsible, class_name: 'User', optional: true
+  has_one :expense_api_user
+  has_one :api_user, through: :expense_api_user
 
   validates :sum, comparison: { greater_than: 0 }
   validates :payment_date, on: :create, allow_blank: true, comparison: { greater_than_or_equal_to: Date.today }

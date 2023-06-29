@@ -1,4 +1,6 @@
 class ApiUser < ApplicationRecord
+  has_one :expense_api_user
+  
   validates :name, presence: true
   validates :token, uniqueness: true
 
