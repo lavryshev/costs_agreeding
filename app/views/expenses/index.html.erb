@@ -4,5 +4,16 @@
 </div>
 <br>
 <br>
+<div>
+  Сортировать по:
+  <%= sort_indicator if params[:field] == 'created_at' %> 
+  <%= sort_link(field: 'created_at', label: 'Дата') %> |
+  <%= sort_indicator if params[:field] == 'sum' %> 
+  <%= sort_link(field: 'sum', label: 'Сумма') %> |
+  <%= sort_indicator if params[:field] == 'payment_date' %>
+  <%= sort_link(field: 'payment_date', label: 'Дата оплаты') %>
+</div>
+<br>
+<br>
 <%= render @expenses %>
 <%= paginate @expenses %>

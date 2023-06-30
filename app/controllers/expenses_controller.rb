@@ -4,7 +4,12 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[edit update destroy agree disagree]
 
   def index
-    @expenses = Expense.order(:created_at).page params[:page]
+    if params[:field]
+      sort_by = params[:field]
+    else
+      sort_by = 'created_at'
+    end
+    @expenses = Expense.order("#{sort_by} #{params[:direction]}").page params[:page]
   end
 
   def new
