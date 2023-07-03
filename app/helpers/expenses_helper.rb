@@ -9,13 +9,13 @@ module ExpensesHelper
   end
 
   def next_direction
-    params[:direction] == 'asc' ? 'desc' : 'asc'
+    session['filters']['direction'] == 'asc' ? 'desc' : 'asc'
   end
 
   def sort_indicator
-    if params[:direction] == 'asc'
+    if session['filters']['direction'] == 'asc'
       '^'
-    elsif params[:direction] == 'desc'
+    elsif session['filters']['direction'] == 'desc'
       'v'
     end
   end
