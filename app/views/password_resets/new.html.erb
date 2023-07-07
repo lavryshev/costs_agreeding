@@ -1,0 +1,11 @@
+<h1>Сброс пароля</h1>
+
+<%= form_with url: password_resets_path, method: :post do |f| %>
+  <div>
+    <%= f.label :Email %><br />
+    <%= f.text_field :email %><br />
+  </div>
+  <div>
+    <%= f.submit "Отправить" %>
+  </div>
+<% end %>

@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+ExpenseStatus.delete_all
+ExpenseStatus.create([{id: 1, name: "Не согласована"}, {id: 2, name: "Cогласована"}, {id: 3, name: "Отклонена"}])
+
+BankAccount.delete_all
+BankAccount.create(id: 1, name: "Основной в Банк1")
+
+Cashbox.delete_all
+Cashbox.create([{id: 1, name: "Касса грн"}, {id: 2, name: "Касса usd"}])

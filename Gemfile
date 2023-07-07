@@ -70,3 +70,10 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "rubocop", "~> 1.50", require: false
+
+gem 'authlogic'
+gem "scrypt", "~> 3.0"
+
+gem 'kaminari'

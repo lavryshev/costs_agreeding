@@ -1,0 +1,33 @@
+<div>
+  <div>
+    <%= expense.id %>
+  </div>
+  <div>
+    <%= expense.created_at %>
+  </div>
+  <div>
+    <%= expense.author.name %>
+  </div>
+  <div>
+    <%= expense.source.name if expense.source %>
+  </div>
+  <div>
+    <%= expense.sum %>
+  </div>
+  <div>
+    <%= expense.description %>
+  </div>
+  <div>
+    <%= expense.payment_date %>
+  </div>
+  <div>
+    <%= expense.status.name %>
+  </div>
+  <div>
+    <%= expense.responsible.name if expense.responsible %>
+  </div>
+  <div>
+    <%= link_to "Изменить", edit_expense_path(expense) %>
+    <%= button_to "Удалить", expense_path(expense), method: :delete %>
+  </div>
+</div>

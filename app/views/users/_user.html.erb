@@ -1,0 +1,26 @@
+<div>
+  <div>
+    <%= user.name %>
+  </div>
+  <div>
+    <%= user.email %>
+  </div>
+  <div>
+    <%= user.login %>
+  </div>
+  <% if user.is_admin %>
+    <div>
+      Администратор
+    </div>
+  <% end %>
+  <% if user.can_agree %>
+    <div>
+      Может согласовывать заявки
+    </div>
+  <% end %>
+  <div>
+    <%= link_to "Изменить", edit_user_path(user) %>
+    <%= button_to "Удалить", user_path(user), method: :delete %>
+  </div>
+</div>
+<hr>
