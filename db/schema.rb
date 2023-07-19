@@ -67,11 +67,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_193851) do
     t.index ["api_user_id"], name: "index_incoming_requests_on_api_user_id"
   end
 
-  create_table "outgoing_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "status_changed_reports", force: :cascade do |t|
     t.bigint "expense_id", null: false
     t.bigint "responsible_id", null: false
