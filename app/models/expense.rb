@@ -11,7 +11,7 @@ class Expense < ApplicationRecord
 
   paginates_per 10
 
-  scope :agreed, -> { joins(:status).where(status: { name: 'Agreed' }) }
+  scope :agreed, -> { joins(:status).merge(ExpenseStatus.agreed) }
 
   def source_sgid
     source&.to_signed_global_id
