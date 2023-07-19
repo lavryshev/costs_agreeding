@@ -1,0 +1,9 @@
+<%= form_with model: bank_account do |form| %>
+  <%= render 'layouts/form_errors', object: bank_account %>
+
+  <%= form.label :name, "Наименование:" %>
+  <%= form.text_field :name %>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

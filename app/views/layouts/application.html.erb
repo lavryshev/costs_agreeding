@@ -11,6 +11,14 @@
   </head>
 
   <body>
+    <% flash.each do |flash_type, message| %>
+      <%= message %>
+    <% end %>
+
+    <% if current_user %>
+      <%= render 'layouts/navigation' %>
+    <% end %>
+  
     <%= yield %>
   </body>
 </html>

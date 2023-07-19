@@ -1,0 +1,9 @@
+<%= form_with model: cashbox do |form| %>
+  <%= render 'layouts/form_errors', object: cashbox %>
+
+  <%= form.label :name, "Наименование:" %>
+  <%= form.text_field :name %>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

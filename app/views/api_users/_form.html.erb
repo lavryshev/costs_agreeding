@@ -1,0 +1,28 @@
+<%= form_with model: api_user do |form| %>
+  <%= render 'layouts/form_errors', object: api_user %>
+
+  <div>
+    <%= form.label :name, "Наименование:" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <% if api_user.persisted? %>
+    <div>
+      <%= "Токен: #{api_user.token}" %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.check_box :active %>
+    <%= form.label :active, "Активный" %>
+  </div>
+
+  <div>
+    <%= form.label :webhook_url, "Webhook URL:" %>
+    <%= form.text_field :webhook_url %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,37 @@
+<h1>Заявки</h1>
+<div>
+  <%= link_to "Добавить заявку", new_expense_path %>
+</div>
+<br>
+<br>
+<div>
+  <%= form_with url: expenses_path, method: :get do |form| %>
+    <p>Отбор</p>
+    <div>  
+      <%= form.check_box :filter_not_agreed, { checked: session['filters']['filter_not_agreed'] == '1' } %>
+      <%= form.label :filter_not_agreed, 'Не согласована' %>
+      <%= form.check_box :filter_agreed, { checked: session['filters']['filter_agreed'] == '1' } %>
+      <%= form.label :filter_agreed, 'Согласована' %>
+      <%= form.check_box :filter_rejected, { checked: session['filters']['filter_rejected'] == '1' } %>
+      <%= form.label :filter_rejected, 'Отклонена' %> 
+    </div>
+    <div>
+      <%= form.button 'Применить' %>
+    </div>
+  <% end %>
+</div>
+<br>
+<br>
+<div>
+  Сортировать по:
+  <%= sort_indicator if session['filters']['field'] == 'created_at' %> 
+  <%= sort_link(field: 'created_at', label: 'Дата') %> |
+  <%= sort_indicator if session['filters']['field'] == 'sum' %> 
+  <%= sort_link(field: 'sum', label: 'Сумма') %> |
+  <%= sort_indicator if session['filters']['field'] == 'payment_date' %>
+  <%= sort_link(field: 'payment_date', label: 'Дата оплаты') %>
+</div>
+<br>
+<br>
+<%= render @expenses %>
+<%= paginate @expenses %>
