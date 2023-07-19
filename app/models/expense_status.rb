@@ -13,9 +13,9 @@ class ExpenseStatus < ApplicationRecord
   #   end
   # end
 
-  scope :not_agreed, -> { find(1) }
-  scope :agreed, -> { find(2) }
-  scope :rejected, -> { find(3) }
+  scope :not_agreed, -> { where(id: 1).first }
+  scope :agreed, -> { where(id: 2).first }
+  scope :rejected, -> { where(id: 3).first }
 
   validates :name, presence: true
 end
