@@ -1,6 +1,6 @@
 class ApiUser < ApplicationRecord
   has_one :expense_api_user
-  
+
   validates :name, presence: true
   validates :token, uniqueness: true
 
@@ -11,7 +11,6 @@ class ApiUser < ApplicationRecord
   private
 
   def generate_token
-    self.token = Digest::MD5::hexdigest(SecureRandom.hex)
+    self.token = Digest::MD5.hexdigest(SecureRandom.hex)
   end
-
 end

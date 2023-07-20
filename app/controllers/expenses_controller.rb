@@ -7,7 +7,7 @@ class ExpensesController < ApplicationController
     @sort = sort_params
 
     @filter_params = filter_by_status_params
-    @filtered_statuses_id = @filter_params.select { |name,id| id.to_i > 0 }.values
+    @filtered_statuses_id = @filter_params.select { |_name, id| id.to_i.positive? }.values
 
     @expenses = @filtered_statuses_id.empty? ? Expense : Expense.by_status(@filtered_statuses_id)
     @expenses = @expenses.merge(Expense.order_by(@sort[:field], @sort[:direction]))
@@ -49,7 +49,7 @@ class ExpensesController < ApplicationController
     @expense.status = ExpenseStatus.agreed
     @expense.responsible = current_user
     @expense.save
-    
+
     add_status_change_report
 
     render :edit, status: :unprocessable_entity
@@ -61,7 +61,7 @@ class ExpensesController < ApplicationController
     @expense.save
 
     add_status_change_report
-    
+
     render :edit, status: :unprocessable_entity
   end
 

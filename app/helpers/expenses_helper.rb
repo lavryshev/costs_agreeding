@@ -1,12 +1,11 @@
 module ExpensesHelper
-  
   def sort_link(sort:, field:, label:, filter_params:)
-    if field == sort[:field]
-      direction = next_direction sort[:direction]
-    else
-      direction = 'asc'
-    end
-    link_to label, expenses_path({field: field, direction: direction}.merge(filter_params))
+    direction = if field == sort[:field]
+                  next_direction sort[:direction]
+                else
+                  'asc'
+                end
+    link_to label, expenses_path({ field:, direction: }.merge(filter_params))
   end
 
   def next_direction(cur_direction)
@@ -20,5 +19,4 @@ module ExpensesHelper
       'v'
     end
   end
-
 end
