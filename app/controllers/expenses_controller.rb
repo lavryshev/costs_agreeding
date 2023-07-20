@@ -4,31 +4,14 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[edit update destroy agree disagree]
 
   def index
-    session['filters'] = {} if session['filters'].blank?
-    session['filters'].merge!(filter_params)
+    @sort = sort_params
 
-    filter_by_status = [];
-    if session['filters']['filter_not_agreed'].to_i == 1
-      filter_by_status.push 1
-    end
-    if session['filters']['filter_agreed'].to_i == 1
-      filter_by_status.push 2
-    end
-    if session['filters']['filter_rejected'].to_i == 1
-      filter_by_status.push 3
-    end
+    @filter_params = filter_by_status_params
+    @filtered_statuses_id = @filter_params.select { |name,id| id.to_i > 0 }.values
 
-    if session['filters']['field']
-      sort_by = session['filters']['field']
-    else
-      sort_by = 'created_at'
-    end
-    
-    if filter_by_status.empty?
-      @expenses = Expense.order("#{sort_by} #{session['filters']['direction']}").page params[:page]
-    else
-      @expenses = Expense.where(status_id: filter_by_status).order("#{sort_by} #{session['filters']['direction']}").page params[:page]
-    end
+    @expenses = @filtered_statuses_id.empty? ? Expense : Expense.by_status(@filtered_statuses_id)
+    @expenses = @expenses.merge(Expense.order_by(@sort[:field], @sort[:direction]))
+    @expenses = @expenses.page params[:page]
   end
 
   def new
@@ -88,8 +71,12 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:sum, :payment_date, :description, :notes, :source_sgid)
   end
 
-  def filter_params
-    params.permit(:filter_not_agreed, :filter_agreed, :filter_rejected, :field, :direction)
+  def filter_by_status_params
+    params.permit(:f_not_agreed, :f_agreed, :f_rejected)
+  end
+
+  def sort_params
+    params.permit(:field, :direction)
   end
 
   def set_expense
