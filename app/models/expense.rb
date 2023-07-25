@@ -12,6 +12,7 @@ class Expense < ApplicationRecord
   paginates_per 10
 
   scope :by_status, ->(statuses) { where(status: statuses) }
+  
   scope :order_by, ->(order_by, direction) do 
     order_by_ = Expense.column_names.include?(order_by) ? order_by : 'created_at'
     direction_ = direction == 'desc' ? 'desc' : 'asc'

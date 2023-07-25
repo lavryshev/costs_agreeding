@@ -4,15 +4,7 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[edit update destroy agree disagree]
 
   def index
-    @sorting = sort_params
-
-    filter_by_status = filter_by_status_params
-    @filter = filter_by_status
-    @filtered_statuses_id = filter_by_status.select { |name, id| id.to_i.positive? }.values
-
-    @expenses = Expense.where(nil)
-    @expenses = Expense.by_status(@filtered_statuses_id) unless @filtered_statuses_id.empty?
-    @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
+    apply_filter_and_sort
     @expenses = @expenses.page params[:page]
   end
 
@@ -73,12 +65,16 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:sum, :payment_date, :description, :notes, :source_sgid)
   end
 
-  def filter_by_status_params
-    params.permit(:f_not_agreed, :f_agreed, :f_rejected)
-  end
+  def apply_filter_and_sort
+    @sorting = params.permit(:field, :direction)
 
-  def sort_params
-    params.permit(:field, :direction)
+    filter_by_status = params.permit(:f_not_agreed, :f_agreed, :f_rejected)
+    @filter = filter_by_status
+    @filtered_statuses_id = filter_by_status.select { |name, id| id.to_i.positive? }.values
+
+    @expenses = Expense.where(nil)
+    @expenses = Expense.by_status(@filtered_statuses_id) unless @filtered_statuses_id.empty?
+    @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
   end
 
   def set_expense
