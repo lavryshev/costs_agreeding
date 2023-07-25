@@ -11,7 +11,13 @@ class Expense < ApplicationRecord
 
   paginates_per 10
 
-  scope :agreed, -> { joins(:status).merge(ExpenseStatus.agreed) }
+  scope :by_status, ->(statuses) { where(status: statuses) }
+
+  scope :order_by, lambda { |order_by, direction|
+    order_by_ = Expense.column_names.include?(order_by) ? order_by : 'created_at'
+    direction_ = direction == 'desc' ? 'desc' : 'asc'
+    order("#{order_by_} #{direction_}")
+  }
 
   def source_sgid
     source&.to_signed_global_id

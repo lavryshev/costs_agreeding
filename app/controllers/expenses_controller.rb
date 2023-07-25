@@ -4,31 +4,8 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[edit update destroy agree disagree]
 
   def index
-    session['filters'] = {} if session['filters'].blank?
-    session['filters'].merge!(filter_params)
-
-    filter_by_status = [];
-    if session['filters']['filter_not_agreed'].to_i == 1
-      filter_by_status.push 1
-    end
-    if session['filters']['filter_agreed'].to_i == 1
-      filter_by_status.push 2
-    end
-    if session['filters']['filter_rejected'].to_i == 1
-      filter_by_status.push 3
-    end
-
-    if session['filters']['field']
-      sort_by = session['filters']['field']
-    else
-      sort_by = 'created_at'
-    end
-    
-    if filter_by_status.empty?
-      @expenses = Expense.order("#{sort_by} #{session['filters']['direction']}").page params[:page]
-    else
-      @expenses = Expense.where(status_id: filter_by_status).order("#{sort_by} #{session['filters']['direction']}").page params[:page]
-    end
+    apply_filter_and_sort
+    @expenses = @expenses.page params[:page]
   end
 
   def new
@@ -66,7 +43,7 @@ class ExpensesController < ApplicationController
     @expense.status = ExpenseStatus.agreed
     @expense.responsible = current_user
     @expense.save
-    
+
     add_status_change_report
 
     render :edit, status: :unprocessable_entity
@@ -78,7 +55,7 @@ class ExpensesController < ApplicationController
     @expense.save
 
     add_status_change_report
-    
+
     render :edit, status: :unprocessable_entity
   end
 
@@ -88,8 +65,16 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:sum, :payment_date, :description, :notes, :source_sgid)
   end
 
-  def filter_params
-    params.permit(:filter_not_agreed, :filter_agreed, :filter_rejected, :field, :direction)
+  def apply_filter_and_sort
+    @sorting = params.permit(:field, :direction)
+
+    filter_by_status = params.permit(:f_not_agreed, :f_agreed, :f_rejected)
+    @filter = filter_by_status
+    @filtered_statuses_id = filter_by_status.select { |_name, status_id| status_id.to_i.positive? }.values
+
+    @expenses = Expense.where(nil)
+    @expenses = Expense.by_status(@filtered_statuses_id) unless @filtered_statuses_id.empty?
+    @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
   end
 
   def set_expense

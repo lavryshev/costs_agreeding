@@ -5,6 +5,5 @@ class PagesController < ApplicationController
     redirect_to expenses_path
   end
 
-  def permission_error
-  end
+  def permission_error; end
 end

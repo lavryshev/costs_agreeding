@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   def current_user
     return @current_user if defined?(@current_user)
 
-    @current_user = current_user_session && current_user_session.user
+    @current_user = current_user_session&.user
   end
 
   def require_login
@@ -24,10 +24,10 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin
-    redirect_to permission_error_path unless current_user && current_user.is_admin
+    redirect_to permission_error_path unless current_user&.is_admin
   end
 
   def require_agree_permission
-    redirect_to permission_error_path unless current_user && current_user.can_agree
+    redirect_to permission_error_path unless current_user&.can_agree
   end
 end
