@@ -4,13 +4,15 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[edit update destroy agree disagree]
 
   def index
-    @sort = sort_params
+    @sorting = sort_params
 
-    @filter_params = filter_by_status_params
-    @filtered_statuses_id = @filter_params.select { |_name, id| id.to_i.positive? }.values
+    filter_by_status = filter_by_status_params
+    @filter = filter_by_status
+    @filtered_statuses_id = filter_by_status.select { |name, id| id.to_i.positive? }.values
 
-    @expenses = @filtered_statuses_id.empty? ? Expense : Expense.by_status(@filtered_statuses_id)
-    @expenses = @expenses.merge(Expense.order_by(@sort[:field], @sort[:direction]))
+    @expenses = Expense.where(nil)
+    @expenses = Expense.by_status(@filtered_statuses_id) unless @filtered_statuses_id.empty?
+    @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
     @expenses = @expenses.page params[:page]
   end
 

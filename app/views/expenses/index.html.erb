@@ -8,8 +8,8 @@
   <%= form_with url: expenses_path, method: :get do |form| %>
     <p>Отбор</p>
     <div>
-      <%= form.hidden_field :field, value: @sort[:field] %>
-      <%= form.hidden_field :direction, value: @sort[:direction] %>
+      <%= form.hidden_field :field, value: @sorting[:field] %>
+      <%= form.hidden_field :direction, value: @sorting[:direction] %>
       <%= form.check_box :f_not_agreed, { checked: @filtered_statuses_id.include?(ExpenseStatus.not_agreed.id.to_s) }, ExpenseStatus.not_agreed.id.to_s %>
       <%= form.label :f_not_agreed, 'Не согласована' %>
       <%= form.check_box :f_agreed, { checked: @filtered_statuses_id.include?(ExpenseStatus.agreed.id.to_s) }, ExpenseStatus.agreed.id.to_s %>
@@ -26,12 +26,12 @@
 <br>
 <div>
   Сортировать по:
-  <%= sort_indicator(@sort[:direction]) if @sort[:field] == 'created_at' %> 
-  <%= sort_link(sort: @sort, field: 'created_at', label: 'Дата', filter_params: @filter_params) %> |
-  <%= sort_indicator(@sort[:direction]) if @sort[:field] == 'sum' %> 
-  <%= sort_link(sort: @sort, field: 'sum', label: 'Сумма', filter_params: @filter_params) %> |
-  <%= sort_indicator(@sort[:direction]) if @sort[:field] == 'payment_date' %>
-  <%= sort_link(sort: @sort, field: 'payment_date', label: 'Дата оплаты', filter_params: @filter_params) %>
+  <%= sort_indicator(@sorting[:direction]) if @sorting[:field] == 'created_at' %> 
+  <%= sort_link(sorting: @sorting, field: 'created_at', label: 'Дата', filter: @filter) %> |
+  <%= sort_indicator(@sorting[:direction]) if @sorting[:field] == 'sum' %> 
+  <%= sort_link(sorting: @sorting, field: 'sum', label: 'Сумма', filter: @filter) %> |
+  <%= sort_indicator(@sorting[:direction]) if @sorting[:field] == 'payment_date' %>
+  <%= sort_link(sorting: @sorting, field: 'payment_date', label: 'Дата оплаты', filter: @filter) %>
 </div>
 <br>
 <br>
