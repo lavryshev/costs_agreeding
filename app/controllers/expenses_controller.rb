@@ -70,7 +70,7 @@ class ExpensesController < ApplicationController
 
     filter_by_status = params.permit(:f_not_agreed, :f_agreed, :f_rejected)
     @filter = filter_by_status
-    @filtered_statuses_id = filter_by_status.select { |name, id| id.to_i.positive? }.values
+    @filtered_statuses_id = filter_by_status.select { |_name, status_id| status_id.to_i.positive? }.values
 
     @expenses = Expense.where(nil)
     @expenses = Expense.by_status(@filtered_statuses_id) unless @filtered_statuses_id.empty?
