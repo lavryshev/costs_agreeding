@@ -81,7 +81,8 @@ class ExpensesController < ApplicationController
   end
 
   def add_status_change_report
-    StatusChangedReport.create(expense: @expense, responsible: @expense.responsible, status: @expense.status_before_type_cast)
+    StatusChangedReport.create(expense: @expense, responsible: @expense.responsible,
+                               status: @expense.status_before_type_cast)
     ProcessStatusChangedReportsJob.perform_later
   end
 end

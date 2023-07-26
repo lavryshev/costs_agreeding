@@ -21,7 +21,7 @@ class Expense < ApplicationRecord
   }
 
   def status_name
-    case self.status
+    case status
     when 'notagreed'
       'Не согласована'
     when 'agreed'
