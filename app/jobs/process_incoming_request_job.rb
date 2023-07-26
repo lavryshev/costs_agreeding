@@ -12,14 +12,14 @@ class ProcessIncomingRequestJob < ApplicationJob
 
       expense = Expense.create(source_type: r.data['source_type'], source_id: r.data['source_id'], sum: r.data['sum'],
                                payment_date: r.data['payment_date'], description: r.data['description'], author_id: r.data['author_id'])
-      expense.status = 'notagreed'
 
       if expense.save
         res = Net::HTTP.post(uri, { command_id: r.id, result: 'success', expense_id: expense.id }.to_json,
                              'Content-Type' => 'application/json')
-        ExpenseApiUser.create(expense:, api_user: r.api_user)
+        ExpenseApiUser.create!(expense: expense, api_user: r.api_user)
       else
         message = expense.errors.full_messages.to_sentence.capitalize
+        p "Error: #{message}"
         res = Net::HTTP.post(uri, { command_id: r.id, result: 'error', message: }.to_json,
                              'Content-Type' => 'application/json')
       end
