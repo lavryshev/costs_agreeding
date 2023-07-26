@@ -43,7 +43,7 @@ class ExpensesController < ApplicationController
     @expense.responsible = current_user
     @expense.save
 
-    add_status_change_report
+    add_status_change_report if @expense.api_user
 
     render :edit, status: :unprocessable_entity
   end
@@ -53,7 +53,7 @@ class ExpensesController < ApplicationController
     @expense.responsible = current_user
     @expense.save
 
-    add_status_change_report
+    add_status_change_report if @expense.api_user
 
     render :edit, status: :unprocessable_entity
   end

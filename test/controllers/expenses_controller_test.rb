@@ -56,6 +56,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
 
   test "should set agreed status" do
     @expense = Expense.create(sum: 1000.00, author: users(:user1), source: bank_accounts(:first), status: 'notagreed')
+    ExpenseApiUser.create(expense: @expense, api_user: api_users(:active))
     login(users(:user1))
     assert_difference("StatusChangedReport.count") do
       put expense_agree_path(@expense)
@@ -65,6 +66,7 @@ class ExpensesControllerTest < ActionDispatch::IntegrationTest
 
   test "should set rejected status" do
     @expense = Expense.create(sum: 1000.00, author: users(:user1), source: bank_accounts(:first), status: 'notagreed')
+    ExpenseApiUser.create(expense: @expense, api_user: api_users(:active))
     login(users(:user1))
     assert_difference("StatusChangedReport.count") do
       put expense_disagree_path(@expense)
