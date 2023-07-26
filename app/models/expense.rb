@@ -1,5 +1,6 @@
 class Expense < ApplicationRecord
-  belongs_to :status, class_name: 'ExpenseStatus'
+  enum status: { notagreed: 0, agreed: 1, rejected: 2 }
+
   belongs_to :source, polymorphic: true
   belongs_to :author, class_name: 'User'
   belongs_to :responsible, class_name: 'User', optional: true
@@ -18,6 +19,17 @@ class Expense < ApplicationRecord
     direction_ = direction == 'desc' ? 'desc' : 'asc'
     order("#{order_by_} #{direction_}")
   }
+
+  def status_name
+    case self.status
+    when 'notagreed'
+      'Не согласована'
+    when 'agreed'
+      'Согласована'
+    when 'rejected'
+      'Отклонена'
+    end
+  end
 
   def source_sgid
     source&.to_signed_global_id

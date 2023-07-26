@@ -12,7 +12,7 @@ class ProcessIncomingRequestJob < ApplicationJob
 
       expense = Expense.create(source_type: r.data['source_type'], source_id: r.data['source_id'], sum: r.data['sum'],
                                payment_date: r.data['payment_date'], description: r.data['description'], author_id: r.data['author_id'])
-      expense.status = ExpenseStatus.not_agreed
+      expense.status = 'notagreed'
 
       if expense.save
         res = Net::HTTP.post(uri, { command_id: r.id, result: 'success', expense_id: expense.id }.to_json,

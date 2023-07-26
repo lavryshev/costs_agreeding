@@ -14,7 +14,6 @@ class ExpensesController < ApplicationController
 
   def create
     @expense = Expense.create(expense_params)
-    @expense.status = ExpenseStatus.not_agreed
     @expense.author = current_user
 
     if @expense.save
@@ -40,7 +39,7 @@ class ExpensesController < ApplicationController
   end
 
   def agree
-    @expense.status = ExpenseStatus.agreed
+    @expense.status = 'agreed'
     @expense.responsible = current_user
     @expense.save
 
@@ -50,7 +49,7 @@ class ExpensesController < ApplicationController
   end
 
   def disagree
-    @expense.status = ExpenseStatus.rejected
+    @expense.status = 'rejected'
     @expense.responsible = current_user
     @expense.save
 
@@ -70,10 +69,10 @@ class ExpensesController < ApplicationController
 
     filter_by_status = params.permit(:f_not_agreed, :f_agreed, :f_rejected)
     @filter = filter_by_status
-    @filtered_statuses_id = filter_by_status.select { |_name, status_id| status_id.to_i.positive? }.values
+    @filtered_status_values = filter_by_status.select { |_name, value| value.to_i >= 0 }.values
 
     @expenses = Expense.where(nil)
-    @expenses = Expense.by_status(@filtered_statuses_id) unless @filtered_statuses_id.empty?
+    @expenses = Expense.by_status(@filtered_status_values) unless @filtered_status_values.empty?
     @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
   end
 
@@ -82,7 +81,7 @@ class ExpensesController < ApplicationController
   end
 
   def add_status_change_report
-    StatusChangedReport.create(expense: @expense, responsible: @expense.responsible, status: @expense.status)
+    StatusChangedReport.create(expense: @expense, responsible: @expense.responsible, status: @expense.status_before_type_cast)
     ProcessStatusChangedReportsJob.perform_later
   end
 end
