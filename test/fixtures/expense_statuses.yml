@@ -1,9 +1,0 @@
-not_agreed:
-  id: 1
-  name: "Не согласована"
-agreed:
-  id: 2
-  name: "Cогласована"  
-rejected:
-  id: 3
-  name: "Отклонена"

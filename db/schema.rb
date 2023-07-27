@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_29_193851) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_26_101718) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,12 +38,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_193851) do
     t.index ["expense_id"], name: "index_expense_api_users_on_expense_id"
   end
 
-  create_table "expense_statuses", force: :cascade do |t|
-    t.string "name", null: false
-  end
-
   create_table "expenses", force: :cascade do |t|
-    t.bigint "status_id"
+    t.integer "status", default: 0
     t.string "source_type"
     t.bigint "source_id"
     t.decimal "sum", precision: 15, scale: 2, null: false
@@ -57,7 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_193851) do
     t.index ["author_id"], name: "index_expenses_on_author_id"
     t.index ["responsible_id"], name: "index_expenses_on_responsible_id"
     t.index ["source_type", "source_id"], name: "index_expenses_on_source"
-    t.index ["status_id"], name: "index_expenses_on_status_id"
+    t.index ["status"], name: "index_expenses_on_status"
   end
 
   create_table "incoming_requests", force: :cascade do |t|
@@ -70,12 +66,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_193851) do
   create_table "status_changed_reports", force: :cascade do |t|
     t.bigint "expense_id", null: false
     t.bigint "responsible_id", null: false
-    t.bigint "status_id", null: false
+    t.integer "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["expense_id"], name: "index_status_changed_reports_on_expense_id"
     t.index ["responsible_id"], name: "index_status_changed_reports_on_responsible_id"
-    t.index ["status_id"], name: "index_status_changed_reports_on_status_id"
+    t.index ["status"], name: "index_status_changed_reports_on_status"
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,11 +94,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_193851) do
 
   add_foreign_key "expense_api_users", "api_users"
   add_foreign_key "expense_api_users", "expenses"
-  add_foreign_key "expenses", "expense_statuses", column: "status_id"
   add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "expenses", "users", column: "responsible_id"
   add_foreign_key "incoming_requests", "api_users"
-  add_foreign_key "status_changed_reports", "expense_statuses", column: "status_id"
   add_foreign_key "status_changed_reports", "expenses"
   add_foreign_key "status_changed_reports", "users", column: "responsible_id"
 end
