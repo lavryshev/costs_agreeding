@@ -64,10 +64,28 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:sum, :payment_date, :description, :notes, :source_sgid)
   end
 
-  def apply_filter_and_sort
-    @sorting = params.permit(:field, :direction)
+  def sorrting_params
+    sorting = params.permit(:field, :direction)
+    if sorting.empty?
+      sorting = session['expense_sorting'] if session['expense_sorting']
+    else
+      session['expense_sorting'] = sorting
+    end
+  end
 
+  def filter_by_status_params
     filter_by_status = params.permit(:f_not_agreed, :f_agreed, :f_rejected)
+    if filter_by_status.empty?
+      filter_by_status = session['expense_filter_by_status'] if session['expense_filter_by_status']
+    else
+      session['expense_filter_by_status'] = filter_by_status
+    end
+  end
+
+  def apply_filter_and_sort
+    @sorting = sorrting_params
+    
+    filter_by_status = filter_by_status_params
     @filter = filter_by_status
     @filtered_status_values = filter_by_status.select { |_name, value| value.to_i >= 0 }.values
 

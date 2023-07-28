@@ -1,7 +1,7 @@
 module ExpensesHelper
   def sort_link(sorting:, field:, label:, filter:)
-    direction = if field == sorting[:field]
-                  next_direction sorting[:direction]
+    direction = if field == sorting['field']
+                  next_direction sorting['direction']
                 else
                   'asc'
                 end
