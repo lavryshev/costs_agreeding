@@ -76,6 +76,7 @@ gem 'rubocop', '~> 1.50', require: false
 gem 'authlogic'
 gem 'scrypt', '~> 3.0'
 
+# Pagination
 gem 'kaminari'
 
 group :development, :test do
@@ -85,4 +86,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  
+  # Library to test validations
+  gem 'shoulda-matchers', '~> 5.0'
 end

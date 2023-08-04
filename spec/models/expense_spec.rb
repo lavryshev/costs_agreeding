@@ -17,8 +17,8 @@ RSpec.describe Expense, type: :model do
     expense2 = create(:expense, sum: 5000)
     expense3 = create(:expense, sum: 1000)
 
-    expect(Expense.order_by('sum', 'asc').first).to eq(expense3)
-    expect(Expense.order_by('sum', 'desc').first).to eq(expense2)
+    expect(Expense.order_by('sum', 'asc')).to eq([expense3, expense1, expense2])
+    expect(Expense.order_by('sum', 'desc')).to eq([expense2, expense1, expense3])
   end
 
 end
