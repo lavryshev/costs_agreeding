@@ -71,6 +71,7 @@ class ExpensesController < ApplicationController
     else
       session['expense_sorting'] = sorting
     end
+    sorting
   end
 
   def filter_by_status_params
@@ -80,6 +81,7 @@ class ExpensesController < ApplicationController
     else
       session['expense_filter_by_status'] = filter_by_status
     end
+    filter_by_status
   end
 
   def apply_filter_and_sort
