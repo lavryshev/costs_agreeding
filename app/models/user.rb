@@ -15,7 +15,8 @@ class User < ApplicationRecord
             uniqueness: {
               case_sensitive: false,
               if: :will_save_change_to_email?
-            }
+            },
+            presence: true
 
   validates :login,
             format: {
