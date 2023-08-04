@@ -80,7 +80,7 @@ gem 'kaminari'
 
 group :development, :test do
   gem 'rspec-rails', '~> 6.0.0'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
 end
 
 group :test do
