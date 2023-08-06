@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_26_101718) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_101718) do
     t.string "webhook_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_api_users_on_token", unique: true
   end
 
   create_table "bank_accounts", force: :cascade do |t|
@@ -76,8 +77,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_101718) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.string "email"
-    t.string "login"
+    t.string "email", null: false
+    t.string "login", null: false
     t.string "crypted_password"
     t.string "password_salt"
     t.string "persistence_token"

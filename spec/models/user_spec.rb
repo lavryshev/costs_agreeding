@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  
+  subject { build(:user) }
+
   describe 'email' do
     it 'should look like an email address' do 
       is_expected.not_to allow_value('test.com').for(:email)
     end
-    it { is_expected.to validate_length_of(:login).is_at_most(100) }
-    it { is_expected.to validate_uniqueness_of(:login).case_insensitive }
+    it { is_expected.to validate_length_of(:email).is_at_most(100) }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
     it { is_expected.to validate_presence_of(:email) }
   end
 

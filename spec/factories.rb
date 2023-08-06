@@ -27,4 +27,8 @@ FactoryBot.define do
     end
   end
 
+  factory :api_user do
+    name { 'Учетная система' }
+  end
+
 end
