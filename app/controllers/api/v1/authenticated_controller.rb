@@ -15,7 +15,10 @@ module Api
 
       def authenticate_user_with_token
         authenticate_with_http_token do |token, _options|
-          @current_api_user = ApiUser.where(active: true).find_by(token:)
+          @current_api_user = ApiUser.find_by(token:)
+          if @current_api_user
+            @current_api_user = @current_api_user.active ? @current_api_user : nil
+          end
         end
       end
 
