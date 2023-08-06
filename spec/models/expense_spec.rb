@@ -1,16 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Expense, type: :model do
-
   it 'has three statuses' do
     expense = build(:expense)
-    
+
     expense.status = 'notagreed'
     expect(expense.status).to eq('notagreed')
-    
+
     expense.status = 'agreed'
     expect(expense.status).to eq('agreed')
-    
+
     expense.status = 'rejected'
     expect(expense.status).to eq('rejected')
   end
@@ -31,7 +30,6 @@ RSpec.describe Expense, type: :model do
     expense.payment_date = Date.yesterday
     expect(expense).not_to be_valid
   end
-
 end
 
 RSpec.describe Expense, '.by_status' do

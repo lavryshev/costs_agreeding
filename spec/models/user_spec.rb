@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   subject { build(:user) }
 
   describe 'email' do
-    it 'should look like an email address' do 
+    it 'should look like an email address' do
       is_expected.not_to allow_value('test.com').for(:email)
     end
     it { is_expected.to validate_length_of(:email).is_at_most(100) }
@@ -13,7 +13,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'login' do
-    it 'should use only letters and numbers' do 
+    it 'should use only letters and numbers' do
       is_expected.not_to allow_value('abc$(%@123').for(:login)
     end
     it { is_expected.to validate_length_of(:login).is_at_least(3).is_at_most(100) }
@@ -23,7 +23,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_confirmation_of(:password) }
 
   it 'validates that at least one admin must remain when is_admin flag is changing' do
-    admin1 = create(:user, is_admin:true)
+    admin1 = create(:user, is_admin: true)
     admin2 = create(:user, is_admin: true)
 
     admin2.is_admin = false
@@ -39,7 +39,7 @@ RSpec.describe User, type: :model do
   end
 
   it 'validates that at leat one admin must remain when user is deleted' do
-    admin1 = create(:user, is_admin:true)
+    admin1 = create(:user, is_admin: true)
     admin2 = create(:user, is_admin: true)
 
     admin2.destroy
@@ -49,7 +49,6 @@ RSpec.describe User, type: :model do
     expect(admin1.errors).not_to be_empty
     expect(admin1.destroyed?).to be false
   end
-
 end
 
 RSpec.describe User, '.admins' do
@@ -60,7 +59,7 @@ RSpec.describe User, '.admins' do
 
     admins = User.admins
     expect(admins).to include(admin)
-    expect(admins).to_not include([user1,user2])
+    expect(admins).to_not include([user1, user2])
   end
 end
 

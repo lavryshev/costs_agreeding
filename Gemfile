@@ -80,13 +80,13 @@ gem 'scrypt', '~> 3.0'
 gem 'kaminari'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 6.0.0'
   gem 'factory_bot_rails'
+  gem 'rspec-rails', '~> 6.0.0'
 end
 
 group :test do
   gem 'database_cleaner-active_record'
-  
+
   # Library to test validations
   gem 'shoulda-matchers', '~> 5.0'
 end

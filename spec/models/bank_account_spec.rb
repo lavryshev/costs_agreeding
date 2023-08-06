@@ -6,6 +6,6 @@ end
 
 RSpec.describe BankAccount, '.list_title' do
   it 'returns source type name' do
-    expect(BankAccount.list_title.class).to eq(String) 
+    expect(BankAccount.list_title.class).to eq(String)
   end
 end

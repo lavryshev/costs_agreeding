@@ -86,7 +86,7 @@ class ExpensesController < ApplicationController
 
   def apply_filter_and_sort
     @sorting = sorrting_params
-    
+
     filter_by_status = filter_by_status_params
     @filter = filter_by_status
     @filtered_status_values = filter_by_status.select { |_name, value| value.to_i >= 0 }.values

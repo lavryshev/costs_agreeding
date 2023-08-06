@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe 'POST /api/v1/addexpense' do
   let(:api_user) { create(:api_user) }
   let(:expense_params) { attributes_for(:expense) }
-  
+
   def post_api_v1_addexpense(params, token)
-    post api_v1_addexpense_path, 
-      headers: { 
-        HTTP_AUTHORIZATION: "Token token=#{token}", 
-        'Content-Type' => 'application/json' 
-      }, 
-      params: params, 
-      as: :json  
+    post api_v1_addexpense_path,
+         headers: {
+           HTTP_AUTHORIZATION: "Token token=#{token}",
+           'Content-Type' => 'application/json'
+         },
+         params:,
+         as: :json
   end
 
   it 'saves incoming request' do
@@ -22,9 +22,9 @@ RSpec.describe 'POST /api/v1/addexpense' do
   end
 
   it 'adds enqued job to process incoming request' do
-    expect {
+    expect do
       post_api_v1_addexpense(expense_params, api_user.token)
-    }.to change {
+    end.to change {
       ActiveJob::Base.queue_adapter.enqueued_jobs.count
     }.by 1
   end

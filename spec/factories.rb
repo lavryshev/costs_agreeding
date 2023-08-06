@@ -1,5 +1,4 @@
 FactoryBot.define do
-
   factory :cashbox do
     name { 'Основная UAH' }
   end
@@ -8,7 +7,7 @@ FactoryBot.define do
     name { 'Основной в Банк1' }
   end
 
-  factory :user, aliases: [:author, :responsible] do
+  factory :user, aliases: %i[author responsible] do
     sequence(:login, 10) { |n| "user#{n}" }
     email { "#{login}@example.com" }
   end
@@ -30,5 +29,4 @@ FactoryBot.define do
   factory :api_user do
     name { 'Учетная система' }
   end
-
 end

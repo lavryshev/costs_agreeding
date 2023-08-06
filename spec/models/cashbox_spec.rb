@@ -6,6 +6,6 @@ end
 
 RSpec.describe Cashbox, '.list_title' do
   it 'returns source type name' do
-    expect(Cashbox.list_title.class).to eq(String) 
+    expect(Cashbox.list_title.class).to eq(String)
   end
 end

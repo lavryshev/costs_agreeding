@@ -45,7 +45,7 @@ class User < ApplicationRecord
 
   def must_exist_admin_on_update
     return unless is_admin_was && is_admin_changed? && User.admins.count == 1
-    
+
     errors.add(:base, 'В приложении не останется ни одного администратора!')
   end
 
