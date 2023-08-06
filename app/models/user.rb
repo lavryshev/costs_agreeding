@@ -31,8 +31,8 @@ class User < ApplicationRecord
 
   validates :password, confirmation: { if: :require_password? }
 
-  validate :must_be_at_least_one_admin_on_update, on: :update
-  before_destroy :must_be_at_least_one_admin_on_destroy
+  validate :must_exist_admin_on_update, on: :update
+  before_destroy :must_exist_admin_on_destroy
 
   def deliver_password_reset_instructions!
     reset_perishable_token!
@@ -41,13 +41,13 @@ class User < ApplicationRecord
 
   private
 
-  def must_be_at_least_one_admin_on_update
+  def must_exist_admin_on_update
     return unless is_admin_was && is_admin_changed? && User.where(is_admin: true).count == 1
-
+    
     errors.add(:base, 'В приложении не останется ни одного администратора!')
   end
 
-  def must_be_at_least_one_admin_on_destroy
+  def must_exist_admin_on_destroy
     return unless is_admin && User.where(is_admin: true).count == 1
 
     errors.add(:base, 'В приложении не останется ни одного администратора!')

@@ -85,7 +85,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
   
   # Library to test validations
   gem 'shoulda-matchers', '~> 5.0'
