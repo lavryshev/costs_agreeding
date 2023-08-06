@@ -34,6 +34,8 @@ class User < ApplicationRecord
   validate :must_exist_admin_on_update, on: :update
   before_destroy :must_exist_admin_on_destroy
 
+  scope :admins, -> { where(is_admin: true) }
+
   def deliver_password_reset_instructions!
     reset_perishable_token!
     PasswordResetMailer.reset_email(self).deliver_now
@@ -42,13 +44,13 @@ class User < ApplicationRecord
   private
 
   def must_exist_admin_on_update
-    return unless is_admin_was && is_admin_changed? && User.where(is_admin: true).count == 1
+    return unless is_admin_was && is_admin_changed? && User.admins.count == 1
     
     errors.add(:base, 'В приложении не останется ни одного администратора!')
   end
 
   def must_exist_admin_on_destroy
-    return unless is_admin && User.where(is_admin: true).count == 1
+    return unless is_admin && User.admins.count == 1
 
     errors.add(:base, 'В приложении не останется ни одного администратора!')
     throw :abort

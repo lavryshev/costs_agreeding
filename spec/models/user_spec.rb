@@ -51,6 +51,18 @@ RSpec.describe User, type: :model do
 
 end
 
+RSpec.describe User, '.admins' do
+  it 'returns all admins' do
+    admin = create(:user, is_admin: true)
+    user1 = create(:user)
+    user2 = create(:user)
+
+    admins = User.admins
+    expect(admins).to include(admin)
+    expect(admins).to_not include([user1,user2])
+  end
+end
+
 RSpec.describe User, '#deliver_password_reset_instructions!' do
   it 'sends password reset instructions by email'
 end
