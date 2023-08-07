@@ -2,7 +2,7 @@ class ApiUser < ApplicationRecord
   has_one :expense_api_user
 
   validates :name, presence: true
-  validates :token, uniqueness: true
+  validates :token, uniqueness: { case_sensitive: true }
 
   before_validation :generate_token, on: :create
 

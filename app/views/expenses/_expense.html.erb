@@ -21,7 +21,7 @@
     <%= expense.payment_date %>
   </div>
   <div>
-    <%= expense.status_name %>
+    <%= status_name(expense.status) %>
   </div>
   <div>
     <%= expense.responsible.name if expense.responsible %>

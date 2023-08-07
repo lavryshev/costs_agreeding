@@ -31,7 +31,7 @@
       Автор: <%= expense.author.name %>
     </div>
     <div>
-      Статус: <%= expense.status_name %>
+      Статус: <%= status_name(expense.status) %>
     </div>
     <% if expense.responsible %>
       <div>

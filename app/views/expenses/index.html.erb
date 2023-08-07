@@ -9,13 +9,11 @@
     <p>Отбор</p>
     <div>
       <%= form.hidden_field :field, value: @sorting['field'] %>
-      <%= form.hidden_field :direction, value: @sorting['direction'] %>
-      <%= form.check_box :f_not_agreed, { checked: @filtered_status_values.include?(Expense.statuses['notagreed'].to_s) }, Expense.statuses['notagreed'].to_s, -1 %>
-      <%= form.label :f_not_agreed, 'Не согласована' %>
-      <%= form.check_box :f_agreed, { checked: @filtered_status_values.include?(Expense.statuses['agreed'].to_s) }, Expense.statuses['agreed'].to_s, -1 %>
-      <%= form.label :f_agreed, 'Согласована' %>
-      <%= form.check_box :f_rejected, { checked: @filtered_status_values.include?(Expense.statuses['rejected'].to_s) }, Expense.statuses['rejected'].to_s, -1 %>
-      <%= form.label :f_rejected, 'Отклонена' %> 
+      <%= form.hidden_field :direction, value: @sorting['direction'] %>      
+      <%= form.collection_check_boxes :statuses, Expense.statuses, :second, :first do |checkbox| %>
+        <%= checkbox.check_box(checked: status_checked?(checkbox.value)) %>
+        <%= checkbox.label { status_name(checkbox.text) } %>
+      <% end %> 
     </div>
     <div>
       <%= form.submit 'Применить' %>
@@ -27,11 +25,11 @@
 <div>
   Сортировать по:
   <%= sort_indicator(@sorting['direction']) if @sorting['field'] == 'created_at' %> 
-  <%= sort_link(sorting: @sorting, field: 'created_at', label: 'Дата', filter: @filter) %> |
+  <%= sort_link(sorting: @sorting, field: 'created_at', label: 'Дата', filter: @selected_filters) %> |
   <%= sort_indicator(@sorting['direction']) if @sorting['field'] == 'sum' %> 
-  <%= sort_link(sorting: @sorting, field: 'sum', label: 'Сумма', filter: @filter) %> |
+  <%= sort_link(sorting: @sorting, field: 'sum', label: 'Сумма', filter: @selected_filters) %> |
   <%= sort_indicator(@sorting['direction']) if @sorting['field'] == 'payment_date' %>
-  <%= sort_link(sorting: @sorting, field: 'payment_date', label: 'Дата оплаты', filter: @filter) %>
+  <%= sort_link(sorting: @sorting, field: 'payment_date', label: 'Дата оплаты', filter: @selected_filters) %>
 </div>
 <br>
 <br>

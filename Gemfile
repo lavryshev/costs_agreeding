@@ -76,8 +76,17 @@ gem 'rubocop', '~> 1.50', require: false
 gem 'authlogic'
 gem 'scrypt', '~> 3.0'
 
+# Pagination
 gem 'kaminari'
 
 group :development, :test do
+  gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.0.0'
+end
+
+group :test do
+  gem 'database_cleaner-active_record'
+
+  # Library to test validations
+  gem 'shoulda-matchers', '~> 5.0'
 end
