@@ -15,24 +15,20 @@ class Expense < ApplicationRecord
 
   paginates_per 10
 
-  scope :by_status, ->(statuses) { where(status: statuses) }
+  scope :filter_by_status, lambda { |statuses| 
+    status_ids = statuses.select { |value| value != '' && value.to_i >= 0 }
+    if status_ids.empty?
+      where(nil)
+    else
+      where(status: status_ids) 
+    end
+  }
 
   scope :order_by, lambda { |order_by, direction|
     order_by_ = Expense.column_names.include?(order_by) ? order_by : 'created_at'
     direction_ = direction == 'desc' ? 'desc' : 'asc'
     order("#{order_by_} #{direction_}")
   }
-
-  def status_name
-    case status
-    when 'notagreed'
-      'Не согласована'
-    when 'agreed'
-      'Согласована'
-    when 'rejected'
-      'Отклонена'
-    end
-  end
 
   def source_sgid
     source&.to_signed_global_id

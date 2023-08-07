@@ -19,4 +19,20 @@ module ExpensesHelper
       'v'
     end
   end
+
+  def status_name(status)
+    case status
+    when 'notagreed'
+      'Не согласована'
+    when 'agreed'
+      'Согласована'
+    when 'rejected'
+      'Отклонена'
+    end
+  end
+
+  def status_checked?(status_id)
+    @selected_filters[:statuses].present? && @selected_filters[:statuses].include?(status_id.to_s)
+  end
+
 end

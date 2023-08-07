@@ -32,19 +32,19 @@ RSpec.describe Expense, type: :model do
   end
 end
 
-RSpec.describe Expense, '.by_status' do
-  it 'can be filtered by status' do
+RSpec.describe Expense, '.filter_by_status' do
+  it 'filters expenses by status' do
     expense1 = create(:expense, status: 'agreed')
     expense2 = create(:expense, status: 'notagreed')
     expense3 = create(:expense, status: 'rejected')
     statuses = Expense.statuses
-    expect(Expense.by_status([statuses['agreed'], statuses['rejected']])).to include(expense1, expense3)
-    expect(Expense.by_status([statuses['agreed']])).to_not include(expense2)
+    expect(Expense.filter_by_status([statuses['agreed'], statuses['rejected']])).to include(expense1, expense3)
+    expect(Expense.filter_by_status([statuses['agreed']])).to_not include(expense2)
   end
 end
 
 RSpec.describe Expense, '.order_by' do
-  it 'can be sorted' do
+  it 'sorts expenses' do
     expense1 = create(:expense, sum: 2000)
     expense2 = create(:expense, sum: 5000)
     expense3 = create(:expense, sum: 1000)
@@ -79,13 +79,6 @@ RSpec.describe Expense, '#source_sgid=' do
     expense = build(:expense)
     expense.source_sgid = cashbox&.to_signed_global_id
     expect(expense.source).to eq(cashbox)
-  end
-end
-
-RSpec.describe Expense, '#status_name' do
-  it 'returns name of current status' do
-    expense = build(:expense)
-    expect(expense.status_name.class).to eq(String)
   end
 end
 
