@@ -32,14 +32,14 @@ RSpec.describe Expense, type: :model do
   end
 end
 
-RSpec.describe Expense, '.filter_by_status' do
+RSpec.describe Expense, '.filter_by_statuses' do
   it 'filters expenses by status' do
     expense1 = create(:expense, status: 'agreed')
     expense2 = create(:expense, status: 'notagreed')
     expense3 = create(:expense, status: 'rejected')
     statuses = Expense.statuses
-    expect(Expense.filter_by_status([statuses['agreed'], statuses['rejected']])).to include(expense1, expense3)
-    expect(Expense.filter_by_status([statuses['agreed']])).to_not include(expense2)
+    expect(Expense.filter_by_statuses([statuses['agreed'], statuses['rejected']])).to include(expense1, expense3)
+    expect(Expense.filter_by_statuses([statuses['agreed']])).to_not include(expense2)
   end
 end
 

@@ -1,4 +1,6 @@
 class Expense < ApplicationRecord
+  include Filterable
+
   enum status: { notagreed: 0, agreed: 1, rejected: 2 }
 
   belongs_to :source, polymorphic: true
@@ -15,7 +17,7 @@ class Expense < ApplicationRecord
 
   paginates_per 10
 
-  scope :filter_by_status, lambda { |statuses| 
+  scope :filter_by_statuses, lambda { |statuses| 
     status_ids = statuses.select { |value| value != '' && value.to_i >= 0 }
     if status_ids.empty?
       where(nil)

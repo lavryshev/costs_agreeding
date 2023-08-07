@@ -60,8 +60,7 @@ class ExpensesController < ApplicationController
     @sorting = params.permit(:field, :direction)
     @selected_filters = params.permit(:statuses => [])
 
-    @expenses = Expense.where(nil)
-    @expenses = @expenses.filter_by_status(@selected_filters[:statuses]) if @selected_filters[:statuses].present?
+    @expenses = Expense.filter(@selected_filters)
     @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
   end
 
