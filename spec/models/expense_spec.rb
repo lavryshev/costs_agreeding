@@ -85,7 +85,7 @@ end
 RSpec.describe Expense, 'after save' do
   let(:api_user) { create(:api_user, active: true) }
   let(:user) { create(:user) }
-  let(:expense) { create(:expense, api_user: api_user) }
+  let(:expense) { create(:expense, api_user:) }
 
   context 'when status changed' do
     it 'adds record to status changed report' do
@@ -100,6 +100,6 @@ RSpec.describe Expense, 'after save' do
       end.to change {
         ActiveJob::Base.queue_adapter.enqueued_jobs.count
       }.by 1
-      end
+    end
   end
 end

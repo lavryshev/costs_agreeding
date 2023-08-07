@@ -13,16 +13,16 @@ class Expense < ApplicationRecord
   validates :sum, comparison: { greater_than: 0 }
   validates :payment_date, on: :create, allow_blank: true, comparison: { greater_than_or_equal_to: Date.today }
 
-  after_save :add_status_change_report, if: Proc.new { saved_change_to_status? && self.api_user }
+  after_save :add_status_change_report, if: proc { saved_change_to_status? && api_user }
 
   paginates_per 10
 
-  scope :filter_by_statuses, lambda { |statuses| 
+  scope :filter_by_statuses, lambda { |statuses|
     status_ids = statuses.select { |value| value != '' && value.to_i >= 0 }
     if status_ids.empty?
       where(nil)
     else
-      where(status: status_ids) 
+      where(status: status_ids)
     end
   }
 
@@ -43,8 +43,7 @@ class Expense < ApplicationRecord
   private
 
   def add_status_change_report
-    StatusChangedReport.create(expense: self, responsible: self.responsible, status: self.status)
+    StatusChangedReport.create(expense: self, responsible:, status:)
     ProcessStatusChangedReportsJob.perform_later
   end
-
 end

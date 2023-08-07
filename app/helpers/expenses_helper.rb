@@ -34,5 +34,4 @@ module ExpensesHelper
   def status_checked?(status_id)
     @selected_filters[:statuses].present? && @selected_filters[:statuses].include?(status_id.to_s)
   end
-
 end
