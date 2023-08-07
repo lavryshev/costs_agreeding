@@ -4,16 +4,6 @@ RSpec.describe 'POST /api/v1/addexpense' do
   let(:api_user) { create(:api_user) }
   let(:expense_params) { attributes_for(:expense) }
 
-  def post_api_v1_addexpense(params, token)
-    post api_v1_addexpense_path,
-         headers: {
-           HTTP_AUTHORIZATION: "Token token=#{token}",
-           'Content-Type' => 'application/json'
-         },
-         params:,
-         as: :json
-  end
-
   it 'saves incoming request' do
     post_api_v1_addexpense(expense_params, api_user.token)
 
@@ -43,5 +33,15 @@ RSpec.describe 'POST /api/v1/addexpense' do
       post_api_v1_addexpense(expense_params, api_user.token)
       expect(response.status).to eq(401)
     end
+  end
+
+  def post_api_v1_addexpense(params, token)
+    post api_v1_addexpense_path,
+         headers: {
+           HTTP_AUTHORIZATION: "Token token=#{token}",
+           'Content-Type' => 'application/json'
+         },
+         params:,
+         as: :json
   end
 end

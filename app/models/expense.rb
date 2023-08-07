@@ -6,9 +6,12 @@ class Expense < ApplicationRecord
   belongs_to :responsible, class_name: 'User', optional: true
   has_one :expense_api_user
   has_one :api_user, through: :expense_api_user
+  has_many :status_changed_reports
 
   validates :sum, comparison: { greater_than: 0 }
   validates :payment_date, on: :create, allow_blank: true, comparison: { greater_than_or_equal_to: Date.today }
+
+  after_save :add_status_change_report, if: Proc.new { saved_change_to_status? && self.api_user }
 
   paginates_per 10
 
@@ -38,4 +41,12 @@ class Expense < ApplicationRecord
   def source_sgid=(sgid)
     self.source = GlobalID::Locator.locate_signed(sgid)
   end
+
+  private
+
+  def add_status_change_report
+    StatusChangedReport.create(expense: self, responsible: self.responsible, status: self.status)
+    ProcessStatusChangedReportsJob.perform_later
+  end
+
 end

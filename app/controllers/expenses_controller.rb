@@ -39,22 +39,14 @@ class ExpensesController < ApplicationController
   end
 
   def agree
-    @expense.status = 'agreed'
-    @expense.responsible = current_user
-    @expense.save
-
-    add_status_change_report if @expense.api_user
-
+    @expense.update(status: 'agreed', responsible: current_user)
+    flash[:alert] = 'Заявка согласована'
     render :edit, status: :unprocessable_entity
   end
 
   def disagree
-    @expense.status = 'rejected'
-    @expense.responsible = current_user
-    @expense.save
-
-    add_status_change_report if @expense.api_user
-
+    @expense.update(status: 'rejected', responsible: current_user)
+    flash[:alert] = 'Заявка отклонена'
     render :edit, status: :unprocessable_entity
   end
 
@@ -98,11 +90,5 @@ class ExpensesController < ApplicationController
 
   def set_expense
     @expense = Expense.find(params[:id])
-  end
-
-  def add_status_change_report
-    StatusChangedReport.create(expense: @expense, responsible: @expense.responsible,
-                               status: @expense.status_before_type_cast)
-    ProcessStatusChangedReportsJob.perform_later
   end
 end
