@@ -5,7 +5,7 @@ RSpec.describe Source, type: :model do
 
   it 'has unique external ID' do
     source1 = create(:source)
-    
+
     source2 = build(:source, externalid: source1.externalid)
     source2.save
     expect(source2.errors).not_to be_empty

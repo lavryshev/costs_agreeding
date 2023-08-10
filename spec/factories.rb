@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :source do
-    name { "Касса организации" }
+    name { 'Касса организации' }
     sequence(:externalid, 1) { |n| n }
   end
 

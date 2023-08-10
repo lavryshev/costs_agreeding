@@ -10,10 +10,10 @@ class ProcessIncomingRequestJob < ApplicationJob
     requests.each do |r|
       uri = URI("#{r.api_user.webhook_url}/ca/callback")
 
-      expense = Expense.create(source_id: r.data['source_id'], 
+      expense = Expense.create(source_id: r.data['source_id'],
                                sum: r.data['sum'],
                                payment_date: r.data['payment_date'],
-                               description: r.data['description'], 
+                               description: r.data['description'],
                                author_id: r.data['author_id'])
 
       if expense.save
