@@ -9,7 +9,7 @@
     <%= expense.author.name %>
   </div>
   <div>
-    <%= expense.source.name if expense.source %>
+    <%= expense.source.name %>
   </div>
   <div>
     <%= expense.sum %>
@@ -27,7 +27,12 @@
     <%= expense.responsible.name if expense.responsible %>
   </div>
   <div>
-    <%= link_to "Изменить", edit_expense_path(expense) %>
-    <%= button_to "Удалить", expense_path(expense), method: :delete %>
+    <%= link_to 'Просмотр', expense_path(expense) %>
+    <% if current_user.can_agree %>
+      <div>
+        <%= button_to "Утвердить", expense_agree_path(expense), method: :put %>
+        <%= button_to "Отклонить", expense_disagree_path(expense), method: :put %>
+      </div>
+    <% end %>
   </div>
 </div>

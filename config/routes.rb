@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   resource :user_session  
   
-  resources :expenses, except: :show do
+  resources :expenses, only: [:index, :show] do
     collection do
       get '/page/:page', action: :index
       get 'list'
