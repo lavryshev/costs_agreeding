@@ -3,7 +3,7 @@ module Api
     class IncomingRequestsController < Api::V1::AuthenticatedController
       def create_expense
         data = JSON.parse(request.body.read)
-        @incoming_request = IncomingRequest.create(api_user: current_api_user, action: 'create_expense', data:)
+        @incoming_request = IncomingRequest.create(external_app: current_external_app, action: 'create_expense', data:)
 
         ProcessIncomingRequestJob.perform_later
 

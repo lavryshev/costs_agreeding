@@ -5,19 +5,19 @@ module Api
 
       before_action :authenticate
 
-      attr_reader :current_api_user
+      attr_reader :current_external_app
 
       def authenticate
-        authenticate_user_with_token || handle_bad_authentication
+        authenticate_app_with_token || handle_bad_authentication
       end
 
       private
 
-      def authenticate_user_with_token
+      def authenticate_app_with_token
         authenticate_with_http_token do |token, _options|
-          @current_api_user = ApiUser.find_by(token:)
-          if @current_api_user
-            @current_api_user = @current_api_user.active ? @current_api_user : nil
+          @current_external_app = ExternalApp.find_by(token:)
+          if @current_external_app
+            @current_external_app = @current_external_app.active ? @current_external_app : nil
           end
         end
       end

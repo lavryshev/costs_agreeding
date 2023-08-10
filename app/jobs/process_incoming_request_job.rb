@@ -8,7 +8,7 @@ class ProcessIncomingRequestJob < ApplicationJob
     requests = IncomingRequest.where(action: 'create_expense')
 
     requests.each do |r|
-      uri = URI("#{r.api_user.webhook_url}/ca/callback")
+      uri = URI("#{r.external_app.webhook_url}/ca/callback")
 
       expense = Expense.create(source_id: r.data['source_id'],
                                sum: r.data['sum'],
@@ -19,7 +19,6 @@ class ProcessIncomingRequestJob < ApplicationJob
       if expense.save
         res = Net::HTTP.post(uri, { command_id: r.id, result: 'success', expense_id: expense.id }.to_json,
                              'Content-Type' => 'application/json')
-        ExpenseApiUser.create!(expense:, api_user: r.api_user)
       else
         message = expense.errors.full_messages.to_sentence.capitalize
         res = Net::HTTP.post(uri, { command_id: r.id, result: 'error', message: }.to_json,

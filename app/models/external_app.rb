@@ -1,5 +1,5 @@
-class ApiUser < ApplicationRecord
-  has_one :expense_api_user
+class ExternalApp < ApplicationRecord
+  has_many :expenses
 
   validates :name, presence: true
   validates :token, uniqueness: { case_sensitive: true }

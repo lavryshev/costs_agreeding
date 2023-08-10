@@ -4,16 +4,16 @@ class Expense < ApplicationRecord
   enum status: { notagreed: 0, agreed: 1, rejected: 2 }
 
   belongs_to :source
-  belongs_to :author, class_name: 'User'
   belongs_to :responsible, class_name: 'User', optional: true
-  has_one :expense_api_user
-  has_one :api_user, through: :expense_api_user
+  belongs_to :external_app
   has_many :status_changed_reports
 
+  validates :external_app, presence: true
+  validates :source, presence: true
   validates :sum, comparison: { greater_than: 0 }
   validates :payment_date, on: :create, allow_blank: true, comparison: { greater_than_or_equal_to: Date.today }
 
-  after_save :add_status_change_report, if: proc { saved_change_to_status? && api_user }
+  after_save :add_status_change_report, if: proc { saved_change_to_status? }
 
   paginates_per 10
 
