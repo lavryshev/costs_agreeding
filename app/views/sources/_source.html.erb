@@ -1,0 +1,13 @@
+<div>
+  <div>
+    <%= source.name %>
+  </div>
+  <div>
+    <%= source.externalid %>
+  </div>
+  <div>
+    <%= link_to "Изменить", edit_source_path(source) %>
+    <%= button_to "Удалить", source_path(source), method: :delete %>
+  </div>
+</div>
+<hr>

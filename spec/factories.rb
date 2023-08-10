@@ -1,10 +1,7 @@
 FactoryBot.define do
-  factory :cashbox do
-    name { 'Основная UAH' }
-  end
-
-  factory :bank_account do
-    name { 'Основной в Банк1' }
+  factory :source do
+    name { 'Касса организации' }
+    sequence(:externalid, 1) { |n| n }
   end
 
   factory :user, aliases: %i[author responsible] do
@@ -13,17 +10,9 @@ FactoryBot.define do
   end
 
   factory :expense do
-    from_cashbox
+    source
     sum { BigDecimal('500.00') }
     author
-
-    trait :from_cashbox do
-      association :source, factory: :cashbox
-    end
-
-    trait :from_bank_account do
-      association :source, factory: :bank_account
-    end
   end
 
   factory :api_user do

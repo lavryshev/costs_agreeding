@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :bank_accounts, except: :show
-  resources :cashboxes, except: :show
+  resources :sources, except: :show
   
   resources :users
   get '/registration', to: 'users#registration', as: 'registration'
@@ -8,7 +7,7 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   resource :user_session  
   
-  resources :expenses, except: :show do
+  resources :expenses, only: [:index, :show] do
     collection do
       get '/page/:page', action: :index
       get 'list'

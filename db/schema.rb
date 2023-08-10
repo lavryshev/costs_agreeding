@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_10_130152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,14 +24,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
     t.index ["token"], name: "index_api_users_on_token", unique: true
   end
 
-  create_table "bank_accounts", force: :cascade do |t|
-    t.string "name", null: false
-  end
-
-  create_table "cashboxes", force: :cascade do |t|
-    t.string "name", null: false
-  end
-
   create_table "expense_api_users", force: :cascade do |t|
     t.bigint "expense_id", null: false
     t.bigint "api_user_id", null: false
@@ -41,8 +33,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
 
   create_table "expenses", force: :cascade do |t|
     t.integer "status", default: 0
-    t.string "source_type"
-    t.bigint "source_id"
     t.decimal "sum", precision: 15, scale: 2, null: false
     t.datetime "payment_date"
     t.bigint "author_id", null: false
@@ -51,9 +41,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "source_id", null: false
     t.index ["author_id"], name: "index_expenses_on_author_id"
     t.index ["responsible_id"], name: "index_expenses_on_responsible_id"
-    t.index ["source_type", "source_id"], name: "index_expenses_on_source"
+    t.index ["source_id"], name: "index_expenses_on_source_id"
     t.index ["status"], name: "index_expenses_on_status"
   end
 
@@ -62,6 +53,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
     t.string "action"
     t.jsonb "data", default: "{}", null: false
     t.index ["api_user_id"], name: "index_incoming_requests_on_api_user_id"
+  end
+
+  create_table "sources", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "externalid", null: false
+    t.index ["externalid"], name: "index_sources_on_externalid", unique: true
   end
 
   create_table "status_changed_reports", force: :cascade do |t|
@@ -95,6 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
 
   add_foreign_key "expense_api_users", "api_users"
   add_foreign_key "expense_api_users", "expenses"
+  add_foreign_key "expenses", "sources"
   add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "expenses", "users", column: "responsible_id"
   add_foreign_key "incoming_requests", "api_users"

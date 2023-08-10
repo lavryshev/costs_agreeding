@@ -1,41 +1,11 @@
 class ExpensesController < ApplicationController
   before_action :require_login
   before_action :require_agree_permission, only: %i[agree disagree]
-  before_action :set_expense, only: %i[edit update destroy agree disagree]
+  before_action :set_expense, only: %i[agree disagree]
 
   def index
     apply_filter_and_sort
     @expenses = @expenses.page params[:page]
-  end
-
-  def new
-    @expense = Expense.new
-  end
-
-  def create
-    @expense = Expense.create(expense_params)
-    @expense.author = current_user
-
-    if @expense.save
-      redirect_to expenses_path, notice: 'Заявка создана успешно.'
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
-
-  def edit; end
-
-  def update
-    if @expense.update(expense_params)
-      redirect_to expenses_path, notice: 'Заявка изменена успешно.'
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  end
-
-  def destroy
-    @expense.destroy
-    redirect_to expenses_path, notice: 'Заявка удалена.'
   end
 
   def agree
@@ -53,7 +23,7 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.require(:expense).permit(:sum, :payment_date, :description, :notes, :source_sgid)
+    params.require(:expense).permit(:sum, :payment_date, :description, :notes, :source)
   end
 
   def apply_filter_and_sort

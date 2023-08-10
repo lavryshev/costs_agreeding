@@ -65,23 +65,6 @@ RSpec.describe Expense, '.page' do
   end
 end
 
-RSpec.describe Expense, '#source_sgid' do
-  it 'returns source signed global id' do
-    cashbox = create(:cashbox)
-    expense = build(:expense, source: cashbox)
-    expect(expense.source_sgid).to eq(cashbox&.to_signed_global_id)
-  end
-end
-
-RSpec.describe Expense, '#source_sgid=' do
-  it 'set source by it signed global id' do
-    cashbox = create(:cashbox)
-    expense = build(:expense)
-    expense.source_sgid = cashbox&.to_signed_global_id
-    expect(expense.source).to eq(cashbox)
-  end
-end
-
 RSpec.describe Expense, 'after save' do
   let(:api_user) { create(:api_user, active: true) }
   let(:user) { create(:user) }
