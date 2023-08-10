@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_10_112739) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_151453) do
     t.string "action"
     t.jsonb "data", default: "{}", null: false
     t.index ["api_user_id"], name: "index_incoming_requests_on_api_user_id"
+  end
+
+  create_table "sources", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "external_id", null: false
+    t.index ["external_id"], name: "index_sources_on_external_id", unique: true
   end
 
   create_table "status_changed_reports", force: :cascade do |t|

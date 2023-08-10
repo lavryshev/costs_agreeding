@@ -1,4 +1,9 @@
 FactoryBot.define do
+  factory :source do
+    name { "Касса организации" }
+    external_id { "1234-abcd-f4f4-0987" }
+  end
+
   factory :cashbox do
     name { 'Основная UAH' }
   end
