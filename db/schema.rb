@@ -10,42 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_10_130152) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_10_194944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "api_users", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "token"
-    t.boolean "active", default: true
-    t.string "webhook_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["token"], name: "index_api_users_on_token", unique: true
-  end
-
-  create_table "expense_api_users", force: :cascade do |t|
-    t.bigint "expense_id", null: false
-    t.bigint "api_user_id", null: false
-    t.index ["api_user_id"], name: "index_expense_api_users_on_api_user_id"
-    t.index ["expense_id"], name: "index_expense_api_users_on_expense_id"
-  end
 
   create_table "expenses", force: :cascade do |t|
     t.integer "status", default: 0
     t.decimal "sum", precision: 15, scale: 2, null: false
     t.datetime "payment_date"
-    t.bigint "author_id", null: false
     t.bigint "responsible_id"
     t.text "description"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "source_id", null: false
-    t.index ["author_id"], name: "index_expenses_on_author_id"
+    t.bigint "external_app_id", null: false
+    t.index ["external_app_id"], name: "index_expenses_on_external_app_id"
     t.index ["responsible_id"], name: "index_expenses_on_responsible_id"
     t.index ["source_id"], name: "index_expenses_on_source_id"
     t.index ["status"], name: "index_expenses_on_status"
+  end
+
+  create_table "external_apps", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "token"
+    t.boolean "active", default: true
+    t.string "webhook_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_external_apps_on_token", unique: true
   end
 
   create_table "incoming_requests", force: :cascade do |t|
@@ -90,12 +83,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_130152) do
     t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
   end
 
-  add_foreign_key "expense_api_users", "api_users"
-  add_foreign_key "expense_api_users", "expenses"
+  add_foreign_key "expenses", "external_apps"
   add_foreign_key "expenses", "sources"
-  add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "expenses", "users", column: "responsible_id"
-  add_foreign_key "incoming_requests", "api_users"
+  add_foreign_key "incoming_requests", "external_apps", column: "api_user_id"
   add_foreign_key "status_changed_reports", "expenses"
   add_foreign_key "status_changed_reports", "users", column: "responsible_id"
 end
