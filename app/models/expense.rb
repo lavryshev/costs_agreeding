@@ -3,7 +3,7 @@ class Expense < ApplicationRecord
 
   enum status: { notagreed: 0, agreed: 1, rejected: 2 }
 
-  belongs_to :source, polymorphic: true
+  belongs_to :source
   belongs_to :author, class_name: 'User'
   belongs_to :responsible, class_name: 'User', optional: true
   has_one :expense_api_user
@@ -31,14 +31,6 @@ class Expense < ApplicationRecord
     direction_ = direction == 'desc' ? 'desc' : 'asc'
     order("#{order_by_} #{direction_}")
   }
-
-  def source_sgid
-    source&.to_signed_global_id
-  end
-
-  def source_sgid=(sgid)
-    self.source = GlobalID::Locator.locate_signed(sgid)
-  end
 
   private
 

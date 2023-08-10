@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :bank_accounts, except: :show
-  resources :cashboxes, except: :show
+  resources :sources, except: :show
   
   resources :users
   get '/registration', to: 'users#registration', as: 'registration'

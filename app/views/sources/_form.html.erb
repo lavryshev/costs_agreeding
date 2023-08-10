@@ -1,0 +1,15 @@
+<%= form_with model: source do |form| %>
+  <%= render 'layouts/form_errors', object: source %>
+
+  <div>
+    <%= form.label :name, "Наименование:" %>
+    <%= form.text_field :name %>
+  </div>
+  <div>  
+    <%= form.label :name, "Внешний ID:" %>
+    <%= form.text_field :externalid %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
