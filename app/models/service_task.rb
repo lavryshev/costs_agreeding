@@ -1,4 +1,4 @@
-class IncomingRequest < ApplicationRecord
+class ServiceTask < ApplicationRecord
   belongs_to :external_app
 
   validates :external_app, presence: true

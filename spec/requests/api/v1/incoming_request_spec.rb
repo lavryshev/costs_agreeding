@@ -8,7 +8,7 @@ RSpec.describe 'POST /api/v1/addexpense' do
     post_api_v1_addexpense(expense_params, extapp.token)
 
     expect(response.status).to eq(200)
-    expect(IncomingRequest.last.action).to eq('create_expense')
+    expect(ServiceTask.last.action).to eq('create_expense')
   end
 
   it 'adds enqued job to process incoming request' do

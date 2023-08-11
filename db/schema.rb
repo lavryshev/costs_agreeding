@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_10_210213) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_11_214722) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,17 +35,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_210213) do
     t.string "name", null: false
     t.text "token"
     t.boolean "active", default: true
-    t.string "webhook_url"
+    t.string "callback_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_external_apps_on_token", unique: true
   end
 
-  create_table "incoming_requests", force: :cascade do |t|
+  create_table "service_tasks", force: :cascade do |t|
     t.string "action", null: false
     t.jsonb "data", default: "{}", null: false
     t.bigint "external_app_id", null: false
-    t.index ["external_app_id"], name: "index_incoming_requests_on_external_app_id"
+    t.index ["external_app_id"], name: "index_service_tasks_on_external_app_id"
   end
 
   create_table "sources", force: :cascade do |t|
@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_210213) do
   add_foreign_key "expenses", "external_apps"
   add_foreign_key "expenses", "sources"
   add_foreign_key "expenses", "users", column: "responsible_id"
-  add_foreign_key "incoming_requests", "external_apps"
+  add_foreign_key "service_tasks", "external_apps"
   add_foreign_key "status_changed_reports", "expenses"
   add_foreign_key "status_changed_reports", "users", column: "responsible_id"
 end
