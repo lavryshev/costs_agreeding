@@ -1,14 +1,14 @@
-<%= form_with model: api_user do |form| %>
-  <%= render 'layouts/form_errors', object: api_user %>
+<%= form_with model: external_app do |form| %>
+  <%= render 'layouts/form_errors', object: external_app %>
 
   <div>
     <%= form.label :name, "Наименование:" %>
     <%= form.text_field :name %>
   </div>
 
-  <% if api_user.persisted? %>
+  <% if external_app.persisted? %>
     <div>
-      <%= "Токен: #{api_user.token}" %>
+      <%= "Токен: #{external_app.token}" %>
     </div>
   <% end %>
 
@@ -18,8 +18,8 @@
   </div>
 
   <div>
-    <%= form.label :webhook_url, "Webhook URL:" %>
-    <%= form.text_field :webhook_url %>
+    <%= form.label :callback_url, "Callback URL:" %>
+    <%= form.text_field :callback_url %>
   </div>
 
   <div>

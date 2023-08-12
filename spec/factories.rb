@@ -10,12 +10,12 @@ FactoryBot.define do
   end
 
   factory :expense do
+    external_app
     source
     sum { BigDecimal('500.00') }
-    author
   end
 
-  factory :api_user do
+  factory :external_app do
     name { 'Учетная система' }
   end
 end

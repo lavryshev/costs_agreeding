@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Expense, type: :model do
+  it { is_expected.to validate_presence_of(:source) }
+  it { is_expected.to validate_presence_of(:external_app) }
+
   it 'has three statuses' do
     expense = build(:expense)
 
@@ -66,9 +69,9 @@ RSpec.describe Expense, '.page' do
 end
 
 RSpec.describe Expense, 'after save' do
-  let(:api_user) { create(:api_user, active: true) }
+  let(:extapp) { create(:external_app, active: true) }
   let(:user) { create(:user) }
-  let(:expense) { create(:expense, api_user:) }
+  let(:expense) { create(:expense, external_app: extapp) }
 
   context 'when status changed' do
     it 'adds record to status changed report' do

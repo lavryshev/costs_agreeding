@@ -1,0 +1,20 @@
+<div>
+  <div>
+    <%= external_app.name %>
+  </div>
+  <div>
+    <%= external_app.callback_url %>
+  </div>
+  <div>
+    <% if external_app.active %>
+      <%= "Активно" %>
+    <% else %>
+      <%= "Неактивно" %>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to "Изменить", edit_external_app_path(external_app) %>
+    <%= button_to "Удалить", external_app_path(external_app), method: :delete %>
+  </div>
+</div>
+<hr>
