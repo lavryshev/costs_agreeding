@@ -12,7 +12,7 @@ class ExternalAppsController < ApplicationController
   end
 
   def create
-    @external_app = ExternalApp.create(external_app_params)
+    @external_app = ExternalApp.new(external_app_params)
 
     if @external_app.save
       redirect_to external_apps_path, notice: 'Внешнее приложение добавлено успешно.'

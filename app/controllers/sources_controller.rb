@@ -12,7 +12,7 @@ class SourcesController < ApplicationController
   end
 
   def create
-    @source = Source.create(source_params)
+    @source = Source.new(source_params)
 
     if @source.save
       redirect_to sources_path, notice: 'Источник денежных средств создан успешно.'
