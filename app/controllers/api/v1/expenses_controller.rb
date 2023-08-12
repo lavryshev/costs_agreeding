@@ -8,17 +8,19 @@ module Api
       end
 
       def update
-
+        task = ServiceTask.create(external_app: current_external_app, action: 'update_expense', data: expense_params)
+        render json: { command_id: task.id }, status: :ok
       end
 
       def destroy
-
+        task = ServiceTask.create(external_app: current_external_app, action: 'destroy_expense', data: expense_params)
+        render json: { command_id: task.id }, status: :ok
       end
 
       private
 
       def expense_params
-        params.permit(:source_id, :sum, :payment_date, :description)
+        params.permit(:id, :source_id, :sum, :payment_date, :description)
       end
 
     end
