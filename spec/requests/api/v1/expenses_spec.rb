@@ -21,9 +21,9 @@ RSpec.describe Api::V1::ExpensesController do
   describe 'PATCH /api/v1/expense/:id' do
     it 'creates service task with action "update_expense"' do
       patch_api_v1_expense(expense_params, extapp.token)
-  
+
       last_service_task = ServiceTask.last
-      
+
       expect(last_service_task.action).to eq('update_expense')
       expect(last_service_task.data['id'].to_i).to eq(test_expense.id)
 
@@ -35,12 +35,12 @@ RSpec.describe Api::V1::ExpensesController do
   describe 'DELETE /api/v1/expense/:id' do
     it 'creates service task with action "destroy_expense"' do
       delete_api_v1_expense(extapp.token)
-  
+
       last_service_task = ServiceTask.last
-      
+
       expect(last_service_task.action).to eq('destroy_expense')
       expect(last_service_task.data['id'].to_i).to eq(test_expense.id)
-      
+
       expect(response.status).to eq(200)
       expect(response_body['command_id']).to eq(last_service_task.id)
     end
@@ -74,20 +74,20 @@ RSpec.describe Api::V1::ExpensesController do
 
   def patch_api_v1_expense(params, token)
     patch api_v1_expense_path(test_expense),
-         headers: {
-           HTTP_AUTHORIZATION: "Token token=#{token}",
-           'Content-Type' => 'application/json'
-         },
-         params:,
-         as: :json
+          headers: {
+            HTTP_AUTHORIZATION: "Token token=#{token}",
+            'Content-Type' => 'application/json'
+          },
+          params:,
+          as: :json
   end
 
   def delete_api_v1_expense(token)
     delete api_v1_expense_path(test_expense),
-         headers: {
-           HTTP_AUTHORIZATION: "Token token=#{token}",
-           'Content-Type' => 'application/json'
-         },
-         as: :json
+           headers: {
+             HTTP_AUTHORIZATION: "Token token=#{token}",
+             'Content-Type' => 'application/json'
+           },
+           as: :json
   end
 end

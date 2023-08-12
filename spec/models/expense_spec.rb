@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Expense, type: :model do
   it { is_expected.to validate_presence_of(:source) }
   it { is_expected.to validate_presence_of(:external_app) }
-  
+
   it 'has three statuses' do
     expense = build(:expense)
 

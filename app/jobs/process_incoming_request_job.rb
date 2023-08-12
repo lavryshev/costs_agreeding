@@ -12,7 +12,7 @@ class ProcessIncomingRequestJob < ApplicationJob
     end
   end
 
-  def create_expense(external_app, data)
+  def create_expense(_external_app, _data)
     uri = URI("#{r.external_app.webhook_url}/ca/callback")
 
     expense = Expense.create(source_id: r.data['source_id'],
@@ -30,5 +30,4 @@ class ProcessIncomingRequestJob < ApplicationJob
                            'Content-Type' => 'application/json')
     end
   end
-
 end
