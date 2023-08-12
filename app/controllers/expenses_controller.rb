@@ -22,10 +22,6 @@ class ExpensesController < ApplicationController
 
   private
 
-  def expense_params
-    params.require(:expense).permit(:sum, :payment_date, :description, :notes, :source)
-  end
-
   def apply_filter_and_sort
     @sorting = params.permit(:field, :direction)
     @selected_filters = params.permit(statuses: [])
