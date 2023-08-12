@@ -2,10 +2,8 @@ module Api
   module V1
     class ExpensesController < Api::V1::AuthenticatedController
 
-      before_action :parse_data
-
       def create
-        task = ServiceTask.create(external_app: current_external_app, action: 'create_expense', data: @data)
+        task = ServiceTask.create(external_app: current_external_app, action: 'create_expense', data: expense_params)
         render json: { command_id: task.id }, status: :ok
       end
 
@@ -19,8 +17,8 @@ module Api
 
       private
 
-      def parse_data
-        @data = JSON.parse(request.body.read)
+      def expense_params
+        params.permit(:source_id, :sum, :payment_date, :description)
       end
 
     end
