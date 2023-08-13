@@ -1,6 +1,7 @@
 class Source < ApplicationRecord
+  include Externable
+
   has_many :expenses, dependent: :restrict_with_error
 
   validates :name, presence: true
-  validates :externalid, uniqueness: { case_sensitive: true }
 end

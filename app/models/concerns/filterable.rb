@@ -1,7 +1,7 @@
 module Filterable
   extend ActiveSupport::Concern
 
-  module ClassMethods
+  class_methods do
     def filter(selected_filters)
       results = where(nil)
       selected_filters.each do |key, value|
