@@ -2,52 +2,66 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::ExpensesController do
   let(:extapp) { create(:external_app) }
-  let(:test_expense) { create(:expense) }
-  let(:expense_params) { attributes_for(:expense) }
 
   describe 'POST /api/v1/expenses' do
-    it 'creates service task with action "create_expense"' do
+    it 'creates expense' do
+      test_source = create(:source)
+      expense_params = { externalid: 'abc123', sum: BigDecimal('1090.00'), source_externalid: test_source.externalid }
       post_api_v1_expenses(expense_params, extapp.token)
 
-      last_service_task = ServiceTask.last
+      expect(response.status).to eq(201)      
+      expect(Expense.last.externalid).to eq(expense_params[:externalid])
+    end
 
-      expect(last_service_task.action).to eq('create_expense')
-
-      expect(response.status).to eq(200)
-      expect(response_body['command_id']).to eq(last_service_task.id)
+    context 'when there are invalid attributes' do
+      it 'returns a 422 with errors' do
+        expense_params = attributes_for(:expense)
+        post_api_v1_expenses(expense_params, extapp.token)
+        
+        expect(response.status).to eq(422)
+        expect(response_body.fetch('errors')).not_to be_empty
+      end
     end
   end
 
   describe 'PATCH /api/v1/expense/:id' do
-    it 'creates service task with action "update_expense"' do
+    let(:test_expense) { create(:expense) }
+
+    it 'updates expense' do
+      expense_params = { id: test_expense.id, externalid: test_expense.externalid, sum: BigDecimal('990.00'), source_externalid: test_expense.source.externalid }
       patch_api_v1_expense(expense_params, extapp.token)
 
-      last_service_task = ServiceTask.last
-
-      expect(last_service_task.action).to eq('update_expense')
-      expect(last_service_task.data['id'].to_i).to eq(test_expense.id)
-
+      test_expense.reload
       expect(response.status).to eq(200)
-      expect(response_body['command_id']).to eq(last_service_task.id)
+      expect(test_expense.sum).to eq(expense_params[:sum])
+    end
+
+    context 'when there are invalid attributes' do
+      it 'returns a 422 with errors' do
+        expense_params = { id: test_expense.id, externalid: test_expense.externalid, sum: BigDecimal('0.00'), source_externalid: test_expense.source.externalid }
+        patch_api_v1_expense(expense_params, extapp.token)
+          
+        expect(response.status).to eq(422)
+        expect(response_body.fetch('errors')).not_to be_empty
+      end
     end
   end
 
   describe 'DELETE /api/v1/expense/:id' do
-    it 'creates service task with action "destroy_expense"' do
-      delete_api_v1_expense(extapp.token)
+    let(:test_expense) { create(:expense) }
 
-      last_service_task = ServiceTask.last
-
-      expect(last_service_task.action).to eq('destroy_expense')
-      expect(last_service_task.data['id'].to_i).to eq(test_expense.id)
+    it 'destroys expense' do
+      expense_params = { id: test_expense.id, externalid: test_expense.externalid }
+      delete_api_v1_expense(expense_params, extapp.token)
 
       expect(response.status).to eq(200)
-      expect(response_body['command_id']).to eq(last_service_task.id)
+      expect(Expense.find_by(id: test_expense.id)).to eq(nil)
     end
   end
 
   context 'when an invalid token is received' do
     it 'returns a 401' do
+      expense_params = attributes_for(:expense)
       post_api_v1_expenses(expense_params, 'wrong_token')
       expect(response.status).to eq(401)
     end
@@ -55,6 +69,7 @@ RSpec.describe Api::V1::ExpensesController do
 
   context 'when received token belongs to inactive external app' do
     it 'returns a 401' do
+      expense_params = attributes_for(:expense)
       extapp.active = false
       extapp.save
       post_api_v1_expenses(expense_params, extapp.token)
@@ -73,7 +88,7 @@ RSpec.describe Api::V1::ExpensesController do
   end
 
   def patch_api_v1_expense(params, token)
-    patch api_v1_expense_path(test_expense),
+    patch api_v1_expense_path,
           headers: {
             HTTP_AUTHORIZATION: "Token token=#{token}",
             'Content-Type' => 'application/json'
@@ -82,12 +97,13 @@ RSpec.describe Api::V1::ExpensesController do
           as: :json
   end
 
-  def delete_api_v1_expense(token)
-    delete api_v1_expense_path(test_expense),
+  def delete_api_v1_expense(params, token)
+    delete api_v1_expense_path,
            headers: {
              HTTP_AUTHORIZATION: "Token token=#{token}",
              'Content-Type' => 'application/json'
            },
+           params:,
            as: :json
   end
 end
