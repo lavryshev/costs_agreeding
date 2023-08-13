@@ -8,8 +8,10 @@ class Expense < ApplicationRecord
   belongs_to :responsible, class_name: 'User', optional: true
   belongs_to :external_app
   belongs_to :organization
+  belongs_to :division, optional: true
   has_many :status_changed_reports
 
+  validates :organization, presence: true
   validates :external_app, presence: true
   validates :source, presence: true
   validates :sum, comparison: { greater_than: 0 }

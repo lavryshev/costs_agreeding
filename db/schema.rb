@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_181501) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_13_201209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "divisions", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "externalid", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_divisions_on_organization_id"
+  end
 
   create_table "expenses", force: :cascade do |t|
     t.integer "status", default: 0
@@ -27,6 +36,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_181501) do
     t.bigint "external_app_id", null: false
     t.string "externalid", null: false
     t.bigint "organization_id", null: false
+    t.bigint "division_id"
+    t.index ["division_id"], name: "index_expenses_on_division_id"
     t.index ["external_app_id"], name: "index_expenses_on_external_app_id"
     t.index ["externalid"], name: "index_expenses_on_externalid", unique: true
     t.index ["organization_id"], name: "index_expenses_on_organization_id"
@@ -94,6 +105,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_181501) do
     t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
   end
 
+  add_foreign_key "divisions", "organizations"
+  add_foreign_key "expenses", "divisions"
   add_foreign_key "expenses", "external_apps"
   add_foreign_key "expenses", "organizations"
   add_foreign_key "expenses", "sources"

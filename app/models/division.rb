@@ -1,9 +1,10 @@
-class Organization < ApplicationRecord
+class Division < ApplicationRecord
   include Externable
 
-  has_many :divisions, dependent: :restrict_with_error
+  belongs_to :organization
   has_many :expenses, dependent: :restrict_with_error
 
   validates :name, presence: true
+  validates :organization, presence: true
 
 end

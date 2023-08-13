@@ -13,6 +13,7 @@ FactoryBot.define do
     external_app
     sequence(:externalid, 1) { |n| "abc#{n}" }
     organization
+    division
     source
     sum { BigDecimal('500.00') }
   end
@@ -24,5 +25,11 @@ FactoryBot.define do
   factory :organization do
     name { 'Наша организация' }
     sequence(:externalid, 1) { |n| "abc#{n}" }
+  end
+
+  factory :division do
+    name { 'IT отдел' }
+    sequence(:externalid, 1) { |n| "abc#{n}" }
+    organization
   end
 end
