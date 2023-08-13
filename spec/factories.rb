@@ -19,4 +19,9 @@ FactoryBot.define do
   factory :external_app do
     name { 'Учетная система' }
   end
+
+  factory :organization do
+    name { 'Наша организация' }
+    sequence(:externalid, 1) { |n| "abc#{n}" }
+  end
 end
