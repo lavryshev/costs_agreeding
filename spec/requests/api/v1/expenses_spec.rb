@@ -5,8 +5,14 @@ RSpec.describe Api::V1::ExpensesController do
 
   describe 'POST /api/v1/expenses' do
     it 'creates expense' do
+      test_organization = create(:organization)
       test_source = create(:source)
-      expense_params = { externalid: 'abc123', sum: BigDecimal('1090.00'), source_externalid: test_source.externalid }
+      expense_params = { 
+        externalid: 'abc123', 
+        sum: BigDecimal('1090.00'), 
+        source_externalid: test_source.externalid,
+        organization_externalid: test_organization.externalid
+      }
       post_api_v1_expenses(expense_params, extapp.token)
 
       expect(response.status).to eq(201)

@@ -6,6 +6,7 @@ module Api
       def create
         @expense = Expense.new(expense_params)
         @expense.source = Source.find_by(externalid: params['source_externalid'])
+        @expense.organization = Organization.find_by(externalid: params['organization_externalid'])
         @expense.external_app = current_external_app
 
         if @expense.save

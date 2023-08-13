@@ -7,6 +7,7 @@ class Expense < ApplicationRecord
   belongs_to :source
   belongs_to :responsible, class_name: 'User', optional: true
   belongs_to :external_app
+  belongs_to :organization
   has_many :status_changed_reports
 
   validates :external_app, presence: true
