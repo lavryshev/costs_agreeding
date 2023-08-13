@@ -30,12 +30,15 @@ RSpec.describe Api::V1::ExpensesController do
     end
   end
 
-  describe 'PATCH /api/v1/expense/:id' do
+  describe 'PATCH /api/v1/expense' do
     let(:test_expense) { create(:expense) }
 
     it 'updates expense' do
-      expense_params = { id: test_expense.id, externalid: test_expense.externalid, sum: BigDecimal('990.00'),
-                         source_externalid: test_expense.source.externalid }
+      expense_params = { 
+        externalid: test_expense.externalid, 
+        sum: BigDecimal('990.00'),
+        source_externalid: test_expense.source.externalid 
+      }
       patch_api_v1_expense(expense_params, extapp.token)
 
       test_expense.reload
@@ -45,8 +48,11 @@ RSpec.describe Api::V1::ExpensesController do
 
     context 'when there are invalid attributes' do
       it 'returns a 422 with errors' do
-        expense_params = { id: test_expense.id, externalid: test_expense.externalid, sum: BigDecimal('0.00'),
-                           source_externalid: test_expense.source.externalid }
+        expense_params = { 
+          externalid: test_expense.externalid, 
+          sum: BigDecimal('0.00'),
+          source_externalid: test_expense.source.externalid 
+        }
         patch_api_v1_expense(expense_params, extapp.token)
 
         expect(response.status).to eq(422)
@@ -55,11 +61,11 @@ RSpec.describe Api::V1::ExpensesController do
     end
   end
 
-  describe 'DELETE /api/v1/expense/:id' do
+  describe 'DELETE /api/v1/expense' do
     let(:test_expense) { create(:expense) }
 
     it 'destroys expense' do
-      expense_params = { id: test_expense.id, externalid: test_expense.externalid }
+      expense_params = { externalid: test_expense.externalid }
       delete_api_v1_expense(expense_params, extapp.token)
 
       expect(response.status).to eq(200)

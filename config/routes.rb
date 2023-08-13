@@ -28,6 +28,11 @@ Rails.application.routes.draw do
         patch 'expense', to: 'expenses#update'
         put 'expense', to: 'expenses#update'
         delete 'expense', to: 'expenses#destroy'
+
+        post 'organizations', to: 'organizations#create'
+        patch 'organization', to: 'organizations#update'
+        put 'organization', to: 'organizations#update'
+        delete 'organization', to: 'organizations#destroy'
       end
     end
   end
