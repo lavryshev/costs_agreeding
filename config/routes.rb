@@ -33,6 +33,11 @@ Rails.application.routes.draw do
         patch 'organization', to: 'organizations#update'
         put 'organization', to: 'organizations#update'
         delete 'organization', to: 'organizations#destroy'
+
+        post 'divisions', to: 'divisions#create'
+        patch 'division', to: 'divisions#update'
+        put 'division', to: 'divisions#update'
+        delete 'division', to: 'divisions#destroy'
       end
     end
   end

@@ -13,7 +13,6 @@ FactoryBot.define do
     external_app
     sequence(:externalid, 1) { |n| "abc#{n}" }
     organization
-    division
     source
     sum { BigDecimal('500.00') }
   end

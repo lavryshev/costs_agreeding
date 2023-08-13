@@ -18,6 +18,9 @@ module Api
       end
 
       def update
+        @expense.source = Source.find_by(externalid: params['source_externalid'])
+        @expense.organization = Organization.find_by(externalid: params['organization_externalid'])
+
         if @expense.update(expense_params)
           render json: { 'message' => 'Expense updated.' }, status: :ok
         else
