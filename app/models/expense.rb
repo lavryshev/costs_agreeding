@@ -9,6 +9,7 @@ class Expense < ApplicationRecord
   has_many :status_changed_reports
 
   validates :external_app, presence: true
+  validates :externalid, presence: true, uniqueness: { case_sensitive: true }
   validates :source, presence: true
   validates :sum, comparison: { greater_than: 0 }
   validates :payment_date, on: :create, allow_blank: true, comparison: { greater_than_or_equal_to: Date.today }

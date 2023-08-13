@@ -25,8 +25,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_075314) do
     t.datetime "updated_at", null: false
     t.bigint "source_id", null: false
     t.bigint "external_app_id", null: false
-    t.string "external_id", null: false
+    t.string "externalid", null: false
     t.index ["external_app_id"], name: "index_expenses_on_external_app_id"
+    t.index ["externalid"], name: "index_expenses_on_externalid", unique: true
     t.index ["responsible_id"], name: "index_expenses_on_responsible_id"
     t.index ["source_id"], name: "index_expenses_on_source_id"
     t.index ["status"], name: "index_expenses_on_status"

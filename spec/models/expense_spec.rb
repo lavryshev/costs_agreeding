@@ -3,6 +3,18 @@ require 'rails_helper'
 RSpec.describe Expense, type: :model do
   it { is_expected.to validate_presence_of(:source) }
   it { is_expected.to validate_presence_of(:external_app) }
+  it { is_expected.to validate_presence_of(:externalid) }
+
+  it 'has unique external ID' do
+    expense1 = create(:expense)
+    expense2 = create(:expense)
+
+    expect(expense1.errors).to be_empty
+
+    expense1.externalid = expense2.externalid
+    expense1.save
+    expect(expense1.errors).not_to be_empty
+  end
 
   it 'has three statuses' do
     expense = build(:expense)

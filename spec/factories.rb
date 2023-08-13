@@ -11,6 +11,7 @@ FactoryBot.define do
 
   factory :expense do
     external_app
+    sequence(:externalid, 1) { |n| "abc#{n}" }
     source
     sum { BigDecimal('500.00') }
   end
