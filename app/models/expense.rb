@@ -1,4 +1,5 @@
 class Expense < ApplicationRecord
+  include Externable
   include Filterable
 
   enum status: { notagreed: 0, agreed: 1, rejected: 2 }

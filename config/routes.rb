@@ -24,7 +24,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       defaults format: :json do
-        resources :expenses, only: %i[create update destroy]
+        post 'expenses', to: 'expenses#create'
+        patch 'expense', to: 'expenses#update'
+        put 'expense', to: 'expenses#update'
+        delete 'expense', to: 'expenses#destroy'
       end
     end
   end
