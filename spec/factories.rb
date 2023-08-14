@@ -1,4 +1,15 @@
 FactoryBot.define do
+  factory :organization do
+    name { 'Наша организация' }
+    sequence(:externalid, 1) { |n| "abc#{n}" }
+  end
+
+  factory :division do
+    name { 'IT отдел' }
+    sequence(:externalid, 1) { |n| "abc#{n}" }
+    organization
+  end
+
   factory :user, aliases: %i[author responsible] do
     sequence(:login, 10) { |n| "user#{n}" }
     email { "#{login}@example.com" }
@@ -11,6 +22,11 @@ FactoryBot.define do
   factory :users_group_member do
     user
     users_group
+  end
+
+  factory :organization_restriction do
+    users_group
+    organization
   end
 
   factory :source do
@@ -28,16 +44,5 @@ FactoryBot.define do
 
   factory :external_app do
     name { 'Учетная система' }
-  end
-
-  factory :organization do
-    name { 'Наша организация' }
-    sequence(:externalid, 1) { |n| "abc#{n}" }
-  end
-
-  factory :division do
-    name { 'IT отдел' }
-    sequence(:externalid, 1) { |n| "abc#{n}" }
-    organization
   end
 end

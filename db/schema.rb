@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_14_180850) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_14_182113) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_14_180850) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_external_apps_on_token", unique: true
+  end
+
+  create_table "organization_restrictions", force: :cascade do |t|
+    t.bigint "users_group_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_restrictions_on_organization_id"
+    t.index ["users_group_id"], name: "index_organization_restrictions_on_users_group_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -125,6 +134,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_14_180850) do
   add_foreign_key "expenses", "organizations"
   add_foreign_key "expenses", "sources"
   add_foreign_key "expenses", "users", column: "responsible_id"
+  add_foreign_key "organization_restrictions", "organizations"
+  add_foreign_key "organization_restrictions", "users_groups"
   add_foreign_key "service_tasks", "external_apps"
   add_foreign_key "status_changed_reports", "expenses"
   add_foreign_key "status_changed_reports", "users", column: "responsible_id"
