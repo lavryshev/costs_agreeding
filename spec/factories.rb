@@ -29,6 +29,11 @@ FactoryBot.define do
     organization
   end
 
+  factory :division_restriction do
+    users_group
+    division
+  end
+
   factory :source do
     name { 'Касса организации' }
     sequence(:externalid, 1) { |n| n }
