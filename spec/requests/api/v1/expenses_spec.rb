@@ -37,7 +37,8 @@ RSpec.describe Api::V1::ExpensesController do
       expense_params = { 
         externalid: test_expense.externalid, 
         sum: BigDecimal('990.00'),
-        source_externalid: test_expense.source.externalid 
+        source_externalid: test_expense.source.externalid,
+        organization_externalid: test_expense.organization.externalid 
       }
       patch_api_v1_expense(expense_params, extapp.token)
 
