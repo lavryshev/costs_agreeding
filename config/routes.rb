@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :users_groups do
     resources :users_group_members, only: %i[create destroy]
     resources :organization_restrictions, only: %i[create destroy]
+    resources :division_restrictions, only: %i[create destroy]
   end
 
   resources :expenses, only: %i[index show] do

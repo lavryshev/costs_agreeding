@@ -1,0 +1,9 @@
+<%= form_with model: [ @users_group, @users_group.division_restrictions.build ] do |form| %>
+  <p>
+    <%= form.label :division.name %>
+    <%= form.collection_select :division_id, Division.all, :id, :name %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
