@@ -1,12 +1,16 @@
 FactoryBot.define do
-  factory :source do
-    name { 'Касса организации' }
-    sequence(:externalid, 1) { |n| n }
+  factory :users_group do
+    name { "Наша организация" }
   end
 
   factory :user, aliases: %i[author responsible] do
     sequence(:login, 10) { |n| "user#{n}" }
     email { "#{login}@example.com" }
+  end
+
+  factory :source do
+    name { 'Касса организации' }
+    sequence(:externalid, 1) { |n| n }
   end
 
   factory :expense do

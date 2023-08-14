@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_201209) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_14_074702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,6 +103,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_201209) do
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["perishable_token"], name: "index_users_on_perishable_token", unique: true
     t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
+  end
+
+  create_table "users_groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "divisions", "organizations"
