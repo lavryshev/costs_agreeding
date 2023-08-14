@@ -1,0 +1,9 @@
+<%= form_with model: [ @users_group, @users_group.users_group_members.build ] do |form| %>
+  <p>
+    <%= form.label :user.name %>
+    <%= form.collection_select :user_id, User.all, :id, :name %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

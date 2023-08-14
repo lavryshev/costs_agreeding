@@ -1,0 +1,11 @@
+<h1><%= @users_group.name %></h1>
+
+<ul>
+  <li><%= link_to 'Изменить', edit_users_group_path(@users_group) %></li>
+  <li><%= button_to "Удалить", users_group_path(@users_group), method: :delete %></li>
+</ul>
+
+<h2>Состав группы:</h2>
+<%= render @users_group.users_group_members %>
+
+<%= render 'users_group_members/form' %>

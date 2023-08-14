@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   resources :password_resets, only: %i[new create edit update]
   resource :user_session  
   
+  resources :users_groups do
+    resources :users_group_members, only: %i[create destroy]
+  end
+
   resources :expenses, only: %i[index show] do
     collection do
       get '/page/:page', action: :index
