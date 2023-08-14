@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_14_074702) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_14_081521) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -105,6 +105,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_14_074702) do
     t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
   end
 
+  create_table "users_group_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "users_group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_users_group_members_on_user_id"
+    t.index ["users_group_id"], name: "index_users_group_members_on_users_group_id"
+  end
+
   create_table "users_groups", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -120,4 +129,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_14_074702) do
   add_foreign_key "service_tasks", "external_apps"
   add_foreign_key "status_changed_reports", "expenses"
   add_foreign_key "status_changed_reports", "users", column: "responsible_id"
+  add_foreign_key "users_group_members", "users"
+  add_foreign_key "users_group_members", "users_groups"
 end

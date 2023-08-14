@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :users_group_members, dependent: :destroy
+  has_many :user_groups, through: :users_group_members
   has_many :expense_responsible, class_name: 'Expense', foreign_key: 'responsible_id', dependent: :restrict_with_error
 
   acts_as_authentic do |c|

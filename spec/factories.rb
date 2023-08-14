@@ -1,11 +1,16 @@
 FactoryBot.define do
+  factory :user, aliases: %i[author responsible] do
+    sequence(:login, 10) { |n| "user#{n}" }
+    email { "#{login}@example.com" }
+  end
+
   factory :users_group do
     name { "Наша организация" }
   end
 
-  factory :user, aliases: %i[author responsible] do
-    sequence(:login, 10) { |n| "user#{n}" }
-    email { "#{login}@example.com" }
+  factory :users_group_member do
+    user
+    users_group
   end
 
   factory :source do
