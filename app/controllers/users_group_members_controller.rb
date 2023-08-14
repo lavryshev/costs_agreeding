@@ -23,5 +23,4 @@ class UsersGroupMembersController < ApplicationController
   def set_users_group
     @users_group = UsersGroup.find(params[:users_group_id])
   end
-
 end

@@ -9,3 +9,8 @@
 <%= render @users_group.users_group_members %>
 
 <%= render 'users_group_members/form' %>
+
+<h2>Ограничение доступа по организациям:</h2>
+<%= render @users_group.organization_restrictions %>
+
+<%= render 'organization_restrictions/form' %>
