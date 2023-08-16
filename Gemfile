@@ -82,6 +82,7 @@ gem 'kaminari'
 group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.0.0'
+  gem 'faker'
 end
 
 group :test do
