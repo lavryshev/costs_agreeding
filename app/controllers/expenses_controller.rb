@@ -26,7 +26,7 @@ class ExpensesController < ApplicationController
     @sorting = params.permit(:field, :direction)
     @selected_filters = params.permit(statuses: [])
 
-    @expenses = Expense.filter(@selected_filters)
+    @expenses = Expense.all_permitted(current_user).merge(Expense.filter(@selected_filters))
     @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
   end
 
