@@ -1,7 +1,7 @@
 require 'faker'
 
 desc 'Load fake data'
-task :sample_data => ['db:setup', 'fake:users', 'fake:organizations', 'fake:external_apps', 'fake:sources', 'fake:expenses']
+task :sample_data => ['db:setup', 'fake:users', 'fake:organizations', 'fake:external_apps', 'fake:sources', 'fake:expenses', 'fake:restrictions']
 
 namespace :fake do
   desc 'Create fake users'
@@ -60,4 +60,15 @@ namespace :fake do
         division: division)
     end
   end
+
+  desc 'Create restrictions'
+  task :restrictions => :environment do
+    ug = UsersGroup.create!(name: 'user group 1')
+    UsersGroupMember.create!(users_group: ug, user: User.where(is_admin: false).first)
+    UsersGroupMember.create!(users_group: ug, user: User.where(is_admin: false).second)
+    OrganizationRestriction.create!(users_group: ug, organization: Organization.second)
+    DivisionRestriction.create!(users_group: ug, division: Organization.first.divisions.first)
+    DivisionRestriction.create!(users_group: ug, division: Organization.first.divisions.second)
+  end
+
 end
