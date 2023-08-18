@@ -1,6 +1,6 @@
 class UsersGroupMembersController < ApplicationController
   before_action :set_users_group
-  
+
   def create
     @users_group_member = @users_group.users_group_members.create(users_group_member_params)
 
@@ -10,7 +10,7 @@ class UsersGroupMembersController < ApplicationController
   def destroy
     @users_group_member = @users_group.users_group_members.find(params[:id])
     @users_group_member.destroy
-    
+
     redirect_to users_group_path(@users_group)
   end
 

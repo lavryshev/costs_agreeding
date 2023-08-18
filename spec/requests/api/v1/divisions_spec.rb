@@ -6,7 +6,8 @@ RSpec.describe Api::V1::DivisionsController do
   describe 'POST /api/v1/divisions' do
     it 'creates division' do
       test_organization = create(:organization)
-      division_params = { externalid: 'abc123', name: 'Склад №10', organization_externalid: test_organization.externalid }
+      division_params = { externalid: 'abc123', name: 'Склад №10',
+                          organization_externalid: test_organization.externalid }
       post_api_v1_divisions(division_params, extapp.token)
 
       expect(response.status).to eq(201)
@@ -29,7 +30,8 @@ RSpec.describe Api::V1::DivisionsController do
     let(:test_division) { create(:division) }
 
     it 'updates division' do
-      division_params = { name: 'New Name', externalid: test_division.externalid, organization_externalid: test_division.organization.externalid }
+      division_params = { name: 'New Name', externalid: test_division.externalid,
+                          organization_externalid: test_division.organization.externalid }
       patch_api_v1_division(division_params, extapp.token)
 
       test_division.reload
@@ -39,7 +41,8 @@ RSpec.describe Api::V1::DivisionsController do
 
     context 'when there are invalid attributes' do
       it 'returns a 422 with errors' do
-        division_params = { name: '', externalid: test_division.externalid, organization_externalid: test_division.organization.externalid }
+        division_params = { name: '', externalid: test_division.externalid,
+                            organization_externalid: test_division.organization.externalid }
         patch_api_v1_division(division_params, extapp.token)
 
         expect(response.status).to eq(422)

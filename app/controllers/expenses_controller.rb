@@ -8,9 +8,7 @@ class ExpensesController < ApplicationController
     @expenses = @expenses.page params[:page]
   end
 
-  def show
-
-  end
+  def show; end
 
   def agree
     @expense.update(status: 'agreed', responsible: current_user)

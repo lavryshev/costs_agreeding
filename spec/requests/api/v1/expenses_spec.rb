@@ -7,9 +7,9 @@ RSpec.describe Api::V1::ExpensesController do
     it 'creates expense' do
       test_organization = create(:organization)
       test_source = create(:source)
-      expense_params = { 
-        externalid: 'abc123', 
-        sum: BigDecimal('1090.00'), 
+      expense_params = {
+        externalid: 'abc123',
+        sum: BigDecimal('1090.00'),
         source_externalid: test_source.externalid,
         organization_externalid: test_organization.externalid
       }
@@ -34,11 +34,11 @@ RSpec.describe Api::V1::ExpensesController do
     let(:test_expense) { create(:expense) }
 
     it 'updates expense' do
-      expense_params = { 
-        externalid: test_expense.externalid, 
+      expense_params = {
+        externalid: test_expense.externalid,
         sum: BigDecimal('990.00'),
         source_externalid: test_expense.source.externalid,
-        organization_externalid: test_expense.organization.externalid 
+        organization_externalid: test_expense.organization.externalid
       }
       patch_api_v1_expense(expense_params, extapp.token)
 
@@ -49,10 +49,10 @@ RSpec.describe Api::V1::ExpensesController do
 
     context 'when there are invalid attributes' do
       it 'returns a 422 with errors' do
-        expense_params = { 
-          externalid: test_expense.externalid, 
+        expense_params = {
+          externalid: test_expense.externalid,
           sum: BigDecimal('0.00'),
-          source_externalid: test_expense.source.externalid 
+          source_externalid: test_expense.source.externalid
         }
         patch_api_v1_expense(expense_params, extapp.token)
 

@@ -16,7 +16,7 @@ FactoryBot.define do
   end
 
   factory :users_group do
-    name { "Наша организация" }
+    name { 'Наша организация' }
   end
 
   factory :users_group_member do

@@ -1,6 +1,6 @@
 class OrganizationRestrictionsController < ApplicationController
   before_action :set_users_group
-  
+
   def create
     @organization_restriction = @users_group.organization_restrictions.create(organization_restriction_params)
 
@@ -10,7 +10,7 @@ class OrganizationRestrictionsController < ApplicationController
   def destroy
     @organization_restriction = @users_group.organization_restrictions.find(params[:id])
     @organization_restriction.destroy
-    
+
     redirect_to users_group_path(@users_group)
   end
 

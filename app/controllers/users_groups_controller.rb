@@ -18,14 +18,12 @@ class UsersGroupsController < ApplicationController
       redirect_to users_group_path(@users_group), notice: 'Группа пользователей создана успешно.'
     else
       render :new, status: :unprocessable_entity
-    end    
+    end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @users_group.update(users_group_params)
@@ -53,5 +51,4 @@ class UsersGroupsController < ApplicationController
   def users_group_params
     params.require(:users_group).permit(:name)
   end
-
 end

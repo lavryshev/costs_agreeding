@@ -26,9 +26,7 @@ class Expense < ApplicationRecord
     related_organizations_ids = restricted_divisions.collect { |d| d.organization.id }
     restricted_organizations = user.organizations.where.not(id: related_organizations_ids)
     result = where(nil)
-    unless restricted_divisions.empty?
-      result = result.where(division: restricted_divisions)
-    end
+    result = result.where(division: restricted_divisions) unless restricted_divisions.empty?
     unless restricted_organizations.empty?
       result = restricted_divisions.empty? ? result.where(organization: restricted_organizations) : result.or(where(organization: restricted_organizations))
     end
@@ -48,11 +46,9 @@ class Expense < ApplicationRecord
     restricted_divisions = user.divisions
     related_organizations_ids = restricted_divisions.collect { |d| d.organization.id }
     restricted_organizations = user.organizations.where.not(id: related_organizations_ids)
-    if restricted_divisions.empty? && restricted_organizations.empty?
-      return true
-    else
-      return restricted_organizations.include?(self.organization) || restricted_divisions.include?(self.division)
-    end
+    return true if restricted_divisions.empty? && restricted_organizations.empty?
+
+    restricted_organizations.include?(organization) || restricted_divisions.include?(division)
   end
 
   scope :order_by, lambda { |order_by, direction|

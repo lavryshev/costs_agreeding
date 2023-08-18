@@ -14,5 +14,4 @@ RSpec.describe Organization, type: :model do
     org1.save
     expect(org1.errors).not_to be_empty
   end
-
 end

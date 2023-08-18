@@ -7,5 +7,4 @@ class Organization < ApplicationRecord
   has_many :users_groups, through: :organization_restrictions
 
   validates :name, presence: true
-
 end

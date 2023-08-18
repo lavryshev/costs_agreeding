@@ -1,6 +1,6 @@
 class DivisionRestrictionsController < ApplicationController
   before_action :set_users_group
-  
+
   def create
     @division_restriction = @users_group.division_restrictions.create(division_restriction_params)
 
@@ -10,7 +10,7 @@ class DivisionRestrictionsController < ApplicationController
   def destroy
     @division_restriction = @users_group.division_restrictions.find(params[:id])
     @division_restriction.destroy
-    
+
     redirect_to users_group_path(@users_group)
   end
 
