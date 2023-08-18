@@ -47,6 +47,13 @@ class User < ApplicationRecord
     PasswordResetMailer.reset_email(self).deliver_now
   end
 
+  def restricted_objects
+    restricted_divisions = divisions
+    related_organizations_ids = restricted_divisions.pluck(:organization_id)
+    restricted_organizations = organizations.where.not(id: related_organizations_ids)
+    [restricted_organizations, restricted_divisions]
+  end
+
   private
 
   def must_exist_admin_on_update

@@ -63,6 +63,34 @@ RSpec.describe User, '.admins' do
   end
 end
 
+RSpec.describe User, '.restricted_objects' do
+  before do
+    @o1 = create(:organization)
+    @o2 = create(:organization)
+    @o3 = create(:organization)
+    @d1_o1 = create(:division, organization: @o1)
+    @d1_o2 = create(:division, organization: @o2)
+    @d2_o2 = create(:division, organization: @o2)
+
+    @user = create(:user)
+    @users_group = create(:users_group)
+    UsersGroupMember.create(users_group: @users_group, user: @user)
+  end
+
+  it 'returns restrictions on organizations and divisions for user' do
+    OrganizationRestriction.create(users_group: @users_group, organization: @o2)
+    OrganizationRestriction.create(users_group: @users_group, organization: @o3)
+    DivisionRestriction.create(users_group: @users_group, division: @d1_o2)
+    organizations, divisions = @user.restricted_objects
+    
+    expect(organizations).to include(@o3)
+    expect(organizations).to_not include(@o1, @o2)
+
+    expect(divisions).to include(@d1_o2)
+    expect(divisions).to_not include(@d1_o1, @d2_o2)
+  end
+end
+
 RSpec.describe User, '#deliver_password_reset_instructions!' do
   it 'sends password reset instructions by email'
 end

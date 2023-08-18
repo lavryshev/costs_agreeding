@@ -22,13 +22,11 @@ class Expense < ApplicationRecord
   paginates_per 10
 
   scope :all_permitted, lambda { |user|
-    restricted_divisions = user.divisions
-    related_organizations_ids = restricted_divisions.collect { |d| d.organization.id }
-    restricted_organizations = user.organizations.where.not(id: related_organizations_ids)
+    organizations, divisions = user.restricted_objects
     result = where(nil)
-    result = result.where(division: restricted_divisions) unless restricted_divisions.empty?
-    unless restricted_organizations.empty?
-      result = restricted_divisions.empty? ? result.where(organization: restricted_organizations) : result.or(where(organization: restricted_organizations))
+    result = result.where(division: divisions) unless divisions.empty?
+    unless organizations.empty?
+      result = divisions.empty? ? result.where(organization: organizations) : result.or(where(organization: organizations))
     end
     return result
   }
@@ -43,12 +41,10 @@ class Expense < ApplicationRecord
   }
 
   def permitted?(user)
-    restricted_divisions = user.divisions
-    related_organizations_ids = restricted_divisions.collect { |d| d.organization.id }
-    restricted_organizations = user.organizations.where.not(id: related_organizations_ids)
-    return true if restricted_divisions.empty? && restricted_organizations.empty?
+    organizations, divisions = user.restricted_objects
+    return true if divisions.empty? && organizations.empty?
 
-    restricted_organizations.include?(organization) || restricted_divisions.include?(division)
+    organizations.include?(organization) || divisions.include?(division)
   end
 
   scope :order_by, lambda { |order_by, direction|
