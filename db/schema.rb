@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_075314) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_14_185024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "division_restrictions", force: :cascade do |t|
+    t.bigint "users_group_id", null: false
+    t.bigint "division_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_division_restrictions_on_division_id"
+    t.index ["users_group_id"], name: "index_division_restrictions_on_users_group_id"
+  end
+
+  create_table "divisions", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "externalid", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_divisions_on_organization_id"
+  end
 
   create_table "expenses", force: :cascade do |t|
     t.integer "status", default: 0
@@ -26,8 +44,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_075314) do
     t.bigint "source_id", null: false
     t.bigint "external_app_id", null: false
     t.string "externalid", null: false
+    t.bigint "organization_id", null: false
+    t.bigint "division_id"
+    t.index ["division_id"], name: "index_expenses_on_division_id"
     t.index ["external_app_id"], name: "index_expenses_on_external_app_id"
     t.index ["externalid"], name: "index_expenses_on_externalid", unique: true
+    t.index ["organization_id"], name: "index_expenses_on_organization_id"
     t.index ["responsible_id"], name: "index_expenses_on_responsible_id"
     t.index ["source_id"], name: "index_expenses_on_source_id"
     t.index ["status"], name: "index_expenses_on_status"
@@ -41,6 +63,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_075314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_external_apps_on_token", unique: true
+  end
+
+  create_table "organization_restrictions", force: :cascade do |t|
+    t.bigint "users_group_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_restrictions_on_organization_id"
+    t.index ["users_group_id"], name: "index_organization_restrictions_on_users_group_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "externalid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "service_tasks", force: :cascade do |t|
@@ -76,7 +114,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_075314) do
     t.string "persistence_token"
     t.string "perishable_token"
     t.boolean "is_admin", default: false
-    t.boolean "can_agree", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -85,10 +122,34 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_075314) do
     t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
   end
 
+  create_table "users_group_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "users_group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_users_group_members_on_user_id"
+    t.index ["users_group_id"], name: "index_users_group_members_on_users_group_id"
+  end
+
+  create_table "users_groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "division_restrictions", "divisions"
+  add_foreign_key "division_restrictions", "users_groups"
+  add_foreign_key "divisions", "organizations"
+  add_foreign_key "expenses", "divisions"
   add_foreign_key "expenses", "external_apps"
+  add_foreign_key "expenses", "organizations"
   add_foreign_key "expenses", "sources"
   add_foreign_key "expenses", "users", column: "responsible_id"
+  add_foreign_key "organization_restrictions", "organizations"
+  add_foreign_key "organization_restrictions", "users_groups"
   add_foreign_key "service_tasks", "external_apps"
   add_foreign_key "status_changed_reports", "expenses"
   add_foreign_key "status_changed_reports", "users", column: "responsible_id"
+  add_foreign_key "users_group_members", "users"
+  add_foreign_key "users_group_members", "users_groups"
 end

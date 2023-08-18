@@ -27,7 +27,8 @@ class ApplicationController < ActionController::Base
     redirect_to permission_error_path unless current_user&.is_admin
   end
 
-  def require_agree_permission
-    redirect_to permission_error_path unless current_user&.can_agree
+  def require_expense_permitted
+    expense = Expense.find(params[:id])
+    redirect_to permission_error_path unless expense.permitted?(current_user)
   end
 end

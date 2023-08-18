@@ -1,4 +1,11 @@
 class User < ApplicationRecord
+  has_many :users_group_members, dependent: :destroy
+  has_many :users_groups, through: :users_group_members
+  has_many :division_restrictions, through: :users_groups
+  has_many :divisions, through: :division_restrictions
+  has_many :organization_restrictions, through: :users_groups
+  has_many :organizations, through: :organization_restrictions
+
   has_many :expense_responsible, class_name: 'Expense', foreign_key: 'responsible_id', dependent: :restrict_with_error
 
   acts_as_authentic do |c|
@@ -38,6 +45,13 @@ class User < ApplicationRecord
   def deliver_password_reset_instructions!
     reset_perishable_token!
     PasswordResetMailer.reset_email(self).deliver_now
+  end
+
+  def restricted_objects
+    restricted_divisions = divisions
+    related_organizations_ids = restricted_divisions.pluck(:organization_id)
+    restricted_organizations = organizations.where.not(id: related_organizations_ids)
+    [restricted_organizations, restricted_divisions]
   end
 
   private

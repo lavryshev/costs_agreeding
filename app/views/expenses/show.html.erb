@@ -1,0 +1,5 @@
+<%= render @expense %>
+<div>
+  <%= button_to "Утвердить", expense_agree_path(@expense), method: :put %>
+  <%= button_to "Отклонить", expense_disagree_path(@expense), method: :put %>
+</div>

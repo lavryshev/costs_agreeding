@@ -47,6 +47,60 @@ RSpec.describe Expense, type: :model do
   end
 end
 
+RSpec.describe Expense, '.all_permitted(user)' do
+  before do
+    @o1 = create(:organization)
+    @o2 = create(:organization)
+    @o3 = create(:organization)
+    @d1_o1 = create(:division, organization: @o1)
+    @d1_o2 = create(:division, organization: @o2)
+    @d2_o2 = create(:division, organization: @o2)
+
+    @e1 = create(:expense, organization: @o1)
+    @e2 = create(:expense, organization: @o2, division: @d1_o2)
+    @e3 = create(:expense, organization: @o2, division: @d2_o2)
+    @e4 = create(:expense, organization: @o3)
+
+    @user = create(:user)
+    @users_group = create(:users_group)
+    UsersGroupMember.create(users_group: @users_group, user: @user)
+  end
+
+  context 'without restrictions for given user' do
+    it 'returns all expenses' do
+      expect(Expense.all_permitted(@user)).to include(@e1, @e2, @e3, @e4)
+    end
+  end
+
+  context 'with restriction by organization' do
+    it 'returns only permitted expenses' do
+      OrganizationRestriction.create(users_group: @users_group, organization: @o3)
+      expenses = Expense.all_permitted(@user)
+      expect(expenses).to include(@e4)
+      expect(expenses).to_not include(@e1, @e2, @e3)
+    end
+  end
+
+  context 'with restriction by division' do
+    it 'returns only permitted expenses' do
+      DivisionRestriction.create(users_group: @users_group, division: @d1_o2)
+      expenses = Expense.all_permitted(@user)
+      expect(expenses).to include(@e2)
+      expect(expenses).to_not include(@e1, @e3, @e4)
+    end
+  end
+
+  context 'with restriction by organization and division' do
+    it 'returns only permitted expenses' do
+      OrganizationRestriction.create(users_group: @users_group, organization: @o3)
+      DivisionRestriction.create(users_group: @users_group, division: @d1_o2)
+      expenses = Expense.all_permitted(@user)
+      expect(expenses).to include(@e2, @e4)
+      expect(expenses).to_not include(@e1, @e3)
+    end
+  end
+end
+
 RSpec.describe Expense, '.filter_by_statuses' do
   it 'filters expenses by status' do
     expense1 = create(:expense, status: 'agreed')
@@ -98,6 +152,66 @@ RSpec.describe Expense, 'after save' do
       end.to change {
         ActiveJob::Base.queue_adapter.enqueued_jobs.count
       }.by 1
+    end
+  end
+end
+
+RSpec.describe Expense, '#permitted?(user)' do
+  before do
+    @o1 = create(:organization)
+    @o2 = create(:organization)
+    @o3 = create(:organization)
+    @d1_o1 = create(:division, organization: @o1)
+    @d1_o2 = create(:division, organization: @o2)
+    @d2_o2 = create(:division, organization: @o2)
+
+    @e1 = create(:expense, organization: @o1)
+    @e2 = create(:expense, organization: @o2, division: @d1_o2)
+    @e3 = create(:expense, organization: @o2, division: @d2_o2)
+    @e4 = create(:expense, organization: @o3)
+
+    @user = create(:user)
+    @users_group = create(:users_group)
+    UsersGroupMember.create(users_group: @users_group, user: @user)
+  end
+
+  context 'without restrictions for given user' do
+    it 'returns is the expense permitted' do
+      expect(@e1.permitted?(@user)).to be true
+      expect(@e2.permitted?(@user)).to be true
+      expect(@e3.permitted?(@user)).to be true
+      expect(@e4.permitted?(@user)).to be true
+    end
+  end
+
+  context 'with restriction by organization' do
+    it 'returns is the expense permitted' do
+      OrganizationRestriction.create(users_group: @users_group, organization: @o3)
+      expect(@e1.permitted?(@user)).to be false
+      expect(@e2.permitted?(@user)).to be false
+      expect(@e3.permitted?(@user)).to be false
+      expect(@e4.permitted?(@user)).to be true
+    end
+  end
+
+  context 'with restriction by division' do
+    it 'returns is the expense permitted' do
+      DivisionRestriction.create(users_group: @users_group, division: @d1_o2)
+      expect(@e1.permitted?(@user)).to be false
+      expect(@e2.permitted?(@user)).to be true
+      expect(@e3.permitted?(@user)).to be false
+      expect(@e4.permitted?(@user)).to be false
+    end
+  end
+
+  context 'with restriction by organization and division' do
+    it 'returns is the expense permitted' do
+      OrganizationRestriction.create(users_group: @users_group, organization: @o3)
+      DivisionRestriction.create(users_group: @users_group, division: @d1_o2)
+      expect(@e1.permitted?(@user)).to be false
+      expect(@e2.permitted?(@user)).to be true
+      expect(@e3.permitted?(@user)).to be false
+      expect(@e4.permitted?(@user)).to be true
     end
   end
 end

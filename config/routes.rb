@@ -7,6 +7,12 @@ Rails.application.routes.draw do
   resources :password_resets, only: %i[new create edit update]
   resource :user_session  
   
+  resources :users_groups do
+    resources :users_group_members, only: %i[create destroy]
+    resources :organization_restrictions, only: %i[create destroy]
+    resources :division_restrictions, only: %i[create destroy]
+  end
+
   resources :expenses, only: %i[index show] do
     collection do
       get '/page/:page', action: :index
@@ -28,6 +34,16 @@ Rails.application.routes.draw do
         patch 'expense', to: 'expenses#update'
         put 'expense', to: 'expenses#update'
         delete 'expense', to: 'expenses#destroy'
+
+        post 'organizations', to: 'organizations#create'
+        patch 'organization', to: 'organizations#update'
+        put 'organization', to: 'organizations#update'
+        delete 'organization', to: 'organizations#destroy'
+
+        post 'divisions', to: 'divisions#create'
+        patch 'division', to: 'divisions#update'
+        put 'division', to: 'divisions#update'
+        delete 'division', to: 'divisions#destroy'
       end
     end
   end

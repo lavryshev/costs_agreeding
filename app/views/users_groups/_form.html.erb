@@ -1,0 +1,11 @@
+<%= form_with model: users_group do |form| %>
+  <%= render 'layouts/form_errors', object: users_group %>
+
+  <div>
+    <%= form.label :name, "Наименование:" %>
+    <%= form.text_field :name %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
