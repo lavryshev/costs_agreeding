@@ -82,7 +82,7 @@ RSpec.describe User, '.restricted_objects' do
     OrganizationRestriction.create(users_group: @users_group, organization: @o3)
     DivisionRestriction.create(users_group: @users_group, division: @d1_o2)
     organizations, divisions = @user.restricted_objects
-    
+
     expect(organizations).to include(@o3)
     expect(organizations).to_not include(@o1, @o2)
 
