@@ -1,38 +1,33 @@
 <div>
   <div>
-    <%= expense.id %>
+    <%= link_to "# #{expense.id}", expense_path(expense) %>
   </div>
   <div>
+    <%= 'Создана: ' %>
     <%= expense.created_at %>
   </div>
   <div>
-    <%= expense.author.name %>
-  </div>
-  <div>
+    <%= 'Банковский счет/касса: ' %>
     <%= expense.source.name %>
   </div>
   <div>
+    <%= 'Сумма: ' %>
     <%= expense.sum %>
   </div>
   <div>
+    <%= 'Описание: ' %>
     <%= expense.description %>
   </div>
   <div>
+    <%= 'Дата оплаты: ' %>
     <%= expense.payment_date %>
   </div>
   <div>
+    <%= 'Статус: ' %>
     <%= status_name(expense.status) %>
   </div>
   <div>
+    <%= 'Ответственный: ' %>
     <%= expense.responsible.name if expense.responsible %>
-  </div>
-  <div>
-    <%= link_to 'Просмотр', expense_path(expense) %>
-    <% if current_user.can_agree %>
-      <div>
-        <%= button_to "Утвердить", expense_agree_path(expense), method: :put %>
-        <%= button_to "Отклонить", expense_disagree_path(expense), method: :put %>
-      </div>
-    <% end %>
   </div>
 </div>
