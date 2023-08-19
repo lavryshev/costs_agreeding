@@ -92,4 +92,4 @@ group :test do
   gem 'shoulda-matchers', '~> 5.0'
 end
 
-gem 'sidekiq'
+gem 'sidekiq', '~> 6.5'
