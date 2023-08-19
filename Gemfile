@@ -91,3 +91,5 @@ group :test do
   # Library to test validations
   gem 'shoulda-matchers', '~> 5.0'
 end
+
+gem 'sidekiq'
