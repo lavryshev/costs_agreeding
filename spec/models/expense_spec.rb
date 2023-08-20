@@ -134,24 +134,17 @@ RSpec.describe Expense, '.page' do
   end
 end
 
-RSpec.describe Expense, 'after save' do
+RSpec.describe Expense, '#save' do
   let(:extapp) { create(:external_app, active: true) }
   let(:user) { create(:user) }
   let(:expense) { create(:expense, external_app: extapp) }
 
-  context 'when status changed' do
-    it 'adds record to status changed report' do
-      expect(expense.status_changed_reports).to be_empty
-      expense.update(status: 'agreed', responsible: user)
-      expect(expense.status_changed_reports).not_to be_empty
-    end
-
-    it 'adds enqued job to process changed status' do
-      expect do
-        expense.update(status: 'agreed', responsible: user)
-      end.to change {
-        ActiveJob::Base.queue_adapter.enqueued_jobs.count
-      }.by 1
+  context 'on update' do
+    it 'schedules StatusChangedCallbackJob' do
+      expect { expense.update(status: 'agreed', responsible: user) }.to(
+        enqueue_sidekiq_job(StatusChangedCallbackJob)
+        .with(expense.id, 1)
+      )
     end
   end
 end
