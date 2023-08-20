@@ -17,7 +17,7 @@ class Expense < ApplicationRecord
   validates :sum, comparison: { greater_than: 0 }
   validates :payment_date, on: :create, allow_blank: true, comparison: { greater_than_or_equal_to: Date.today }
 
-  after_save :add_status_change_report, if: proc { saved_change_to_status? }
+  after_commit :status_changed_callback, on: :update
 
   paginates_per 10
 
@@ -55,8 +55,7 @@ class Expense < ApplicationRecord
 
   private
 
-  def add_status_change_report
-    StatusChangedReport.create(expense: self, responsible:, status:)
-    ProcessStatusChangedReportsJob.perform_later
+  def status_changed_callback
+    StatusChangedCallbackJob.perform_async(id, 1)
   end
 end
