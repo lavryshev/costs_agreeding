@@ -90,6 +90,8 @@ group :test do
 
   # Library to test validations
   gem 'shoulda-matchers', '~> 5.0'
+
+  gem 'rspec-sidekiq'
 end
 
 gem 'sidekiq', '~> 6.5'
