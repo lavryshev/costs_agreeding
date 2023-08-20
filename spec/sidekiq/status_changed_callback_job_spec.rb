@@ -18,5 +18,4 @@ RSpec.describe StatusChangedCallbackJob, type: :job do
       expect { described_class.new.perform(expense.id, 1) }.to enqueue_sidekiq_job.at(15.minutes.from_now)
     end
   end
-
 end

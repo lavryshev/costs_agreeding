@@ -13,9 +13,9 @@ class ExternalAppAdapter
   def post_changed_expense_status(expense)
     uri = URI(@external_app.callback_url)
     request_body = { action: 'status_changed', expense: expense.externalid, status: expense.status }.to_json
-    
+
     res = Net::HTTP.post(uri, request_body, 'Content-Type' => 'application/json')
 
-    res.code == '200' ? true : false
+    res.code == '200'
   end
 end

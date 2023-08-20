@@ -141,9 +141,7 @@ RSpec.describe Expense, '#save' do
 
   context 'on update' do
     it 'schedules StatusChangedCallbackJob' do
-      expect {
-        expense.update(status: 'agreed', responsible: user)
-      }.to(
+      expect { expense.update(status: 'agreed', responsible: user) }.to(
         enqueue_sidekiq_job(StatusChangedCallbackJob)
         .with(expense.id, 1)
       )
