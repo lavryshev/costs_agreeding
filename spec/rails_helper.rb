@@ -68,3 +68,8 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+RSpec::Sidekiq.configure do |config|
+  # For processing sidekiq jobs in test environment
+  config.warn_when_jobs_not_processed_by_sidekiq = false
+end
