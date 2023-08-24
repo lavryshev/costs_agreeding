@@ -4,6 +4,9 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[show agree disagree]
 
   def index
+    @expenses = Expense.includes(%i[source responsible organization division])
+                       .all_permitted(current_user)
+
     apply_filter_and_sort
     @expenses = @expenses.page params[:page]
   end
@@ -26,7 +29,7 @@ class ExpensesController < ApplicationController
     @sorting = params.permit(:field, :direction)
     @selected_filters = params.permit(statuses: [])
 
-    @expenses = Expense.all_permitted(current_user).merge(Expense.filter(@selected_filters))
+    @expenses = @expenses.merge(Expense.filter(@selected_filters))
     @expenses = @expenses.merge(Expense.order_by(@sorting[:field], @sorting[:direction]))
   end
 

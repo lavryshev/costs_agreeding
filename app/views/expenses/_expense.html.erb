@@ -7,6 +7,14 @@
     <%= expense.created_at %>
   </div>
   <div>
+    <%= 'Организация: ' %>
+    <%= expense.organization.name %>
+  </div>
+  <div>
+    <%= 'Подразделение: ' %>
+    <%= expense.division.name if expense.division %>
+  </div>
+  <div>
     <%= 'Банковский счет/касса: ' %>
     <%= expense.source.name %>
   </div>
